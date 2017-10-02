@@ -15,7 +15,6 @@ import javax.persistence.Table;
 public class Product {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@TableGenerator(name="tab")
 	private Integer productId;
 	private String productName;
 	private String quantityPerUnit;
