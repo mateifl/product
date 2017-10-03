@@ -1,5 +1,6 @@
 package ro.zizicu.mservice.product.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,26 +10,37 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "products")
 public class Product {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "productid")
 	private Integer productId;
+	@Column(name = "productname")
 	private String productName;
+	@Column(name = "quantityperunit")
 	private String quantityPerUnit;
+	@Column(name = "unitprice")
 	private Double unitPrice;
+	@Column(name = "unitsinstock")
 	private Integer unitsInStock;
+	@Column(name = "unitsonorder")
 	private Integer unitsOnOrder;
+	@Column(name = "reorderlevel")
 	private Integer reorderLevel;
+	@Column(name = "discontinued")
 	private String discontinued;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="supplierId")
+    @JoinColumn(name="supplierid")
+	@JsonIgnore
 	private Supplier supplier;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="categoryId")
+	@JoinColumn(name="categoryid")
+	@JsonIgnore
 	private Category category;
 	
 	public Integer getProductId() {
@@ -91,6 +103,4 @@ public class Product {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
-	
 }

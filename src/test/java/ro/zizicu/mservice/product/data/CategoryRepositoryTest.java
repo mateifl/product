@@ -1,5 +1,7 @@
 package ro.zizicu.mservice.product.data;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,14 @@ public class CategoryRepositoryTest {
 		c.setDescription("Category description");
 		c.setPicture("Picture test1");
 		repository.save(c);
+		assertTrue("save category", c.getCategoryId() != null);
+		repository.delete(c);
+		
 	}
 	
+	@Test
+	public void testLoadCategory() {
+		Category c = repository.findOne(1);
+		assertTrue("load category", c.getCategoryId() == 1);
+	}
 }
