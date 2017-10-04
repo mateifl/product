@@ -1,31 +1,26 @@
 package ro.zizicu.mservice.product.services.impl;
 
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ro.zizicu.mservice.product.data.CategoryRepository;
 import ro.zizicu.mservice.product.data.ProductRepository;
-import ro.zizicu.mservice.product.data.SupplierRepository;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
 import ro.zizicu.mservice.product.services.ProductService;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 	
+	@Autowired
 	private ProductRepository repository;
-	private CategoryRepository categoryRepository;
-	private SupplierRepository supplierRepository;
 	
 	@Override
 	@Transactional
 	public void createProduct(Product product, Category category, Supplier supplier) {
-		List<Category> categories = categoryRepository.findByCategoryName(category.getCategoryName());
-		if(categories.isEmpty())
-		{
-			
-		}
+		product.setCategory(category);
+		product.setSupplier(supplier);
 		repository.save(product);
 	}
 
@@ -37,21 +32,27 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteProduct(Product p) {
-		// TODO Auto-generated method stub
-
+		repository.delete(p);
 	}
 
 	@Override
-	public Product loadProduct(Product p) {
-		// TODO Auto-generated method stub
-		return null;
+	public Product loadProduct(Integer productId) {
+		Product product = repository.findOne(productId);
+		return product;
 	}
 
 	@Override
 	public void createCategory(Category category) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void createSupplier(Supplier supplier) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
