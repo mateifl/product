@@ -10,7 +10,7 @@ public interface ProductService {
 	void deleteProduct(Product p);
 	
 	/** TODO do I need this method to take the id as the parameter */
-	Product loadProduct(Product p);
+	Product loadProduct(Integer id);
 	void createCategory(Category category);
-	
+	void createSupplier(Supplier supplier);
 }
