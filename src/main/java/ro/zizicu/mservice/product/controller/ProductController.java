@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import ro.zizicu.mservice.product.data.CategoryRepository;
-//import ro.zizicu.mservice.product.data.ProductRepository;
-import ro.zizicu.mservice.product.data.SupplierRepository;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
@@ -27,10 +24,6 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productService;
-	@Autowired 
-	private CategoryRepository categoryRepository;
-	@Autowired 
-	private SupplierRepository supplierRepository;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
@@ -39,11 +32,11 @@ public class ProductController {
 	
 	@RequestMapping(value = "/product/create/{categoryId}/{supplierId}", method = RequestMethod.POST)
 	public ResponseEntity<?> createProduct(@PathVariable Integer categoryId, @PathVariable Integer supplierId,@RequestBody Product product) {
-		Category category = categoryRepository.findOne(categoryId);
+		Category category = productService.loadCategory(categoryId);
 		if(category == null) 
 			return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
 		else logger.debug("Category loaded");
-		Supplier s = supplierRepository.findOne(supplierId);
+		Supplier s = productService.loadSupplier(supplierId);
 		if(s == null) 
 			return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
 		else logger.debug("Supplier loaded");

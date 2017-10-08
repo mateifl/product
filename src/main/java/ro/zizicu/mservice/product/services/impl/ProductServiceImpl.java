@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ro.zizicu.mservice.product.data.CategoryRepository;
 import ro.zizicu.mservice.product.data.ProductRepository;
+import ro.zizicu.mservice.product.data.SupplierRepository;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
@@ -15,6 +17,10 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	private ProductRepository repository;
+	@Autowired 
+	private CategoryRepository categoryRepository;
+	@Autowired 
+	private SupplierRepository supplierRepository;
 	
 	@Override
 	@Transactional
@@ -44,8 +50,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional
 	public void createCategory(Category category) {
-		// TODO Auto-generated method stub
+		categoryRepository.save(category);
 
 	}
 
@@ -55,4 +62,29 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	@Override
+	public Category loadCategory(Integer id) {
+		Category category = categoryRepository.findOne(id);
+		return category;
+	}
+
+	@Override
+	public void deleteCategory(Category category) {
+		categoryRepository.delete(category);
+	}
+
+	@Override
+	public Supplier loadSupplier(Integer id) {
+		Supplier supplier = supplierRepository.findOne(id);
+		return supplier;
+	}
+
+	@Override
+	public void deleteSupplier(Supplier supplier) {
+		supplierRepository.delete(supplier);
+		
+	}
+
+	
+	
 }
