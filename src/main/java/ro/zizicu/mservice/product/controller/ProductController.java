@@ -31,18 +31,22 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/product/create/{categoryId}/{supplierId}", method = RequestMethod.POST)
-	public ResponseEntity<?> createProduct(@PathVariable Integer categoryId, @PathVariable Integer supplierId,@RequestBody Product product) {
+	public ResponseEntity<?> createProduct(@PathVariable Integer categoryId, @PathVariable Integer supplierId, @RequestBody Product product) {
 		Category category = productService.loadCategory(categoryId);
 		if(category == null) 
 			return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
-		else logger.debug("Category loaded");
-		Supplier s = productService.loadSupplier(supplierId);
-		if(s == null) 
+		else if(logger.isDebugEnabled())
+			logger.debug("Category loaded");
+		
+		Supplier supplier = productService.loadSupplier(supplierId);
+		if(supplier == null) 
 			return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
-		else logger.debug("Supplier loaded");
+		else if(logger.isDebugEnabled())
+			logger.debug("Supplier loaded");
+		
 		product.setCategory(category);
-		product.setSupplier(s);
-		productService.createProduct(product, category, s);
+		product.setSupplier(supplier);
+		productService.createProduct(product, category, supplier);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	

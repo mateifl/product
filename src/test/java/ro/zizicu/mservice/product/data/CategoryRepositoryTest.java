@@ -31,7 +31,7 @@ public class CategoryRepositoryTest {
 	
 	@Test
 	public void testLoadCategory() {
-		Category c = repository.findOne(1);
+		Category c = repository.findById(1).get();
 		assertTrue("load category", c.getCategoryId() == 1);
 	}
 }

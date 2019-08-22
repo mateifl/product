@@ -19,7 +19,7 @@ public class SupplierRepositoryTest {
 	
 	@Test
 	public void testLoadSupplier() {
-		Supplier s = supplierRepository.findOne(2);
+		Supplier s = supplierRepository.findById(2).get();
 		assertTrue("test load supplier", s != null);
 	}
 	

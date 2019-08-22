@@ -23,7 +23,7 @@ public class CategoryController {
 	@RequestMapping(value = "/category/{id}", method = RequestMethod.GET)
 	public Category load(@PathVariable Integer id)
 	{
-		return categoryRepository.findOne(id);
+		return categoryRepository.findById(id).get();
 	}
 	
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)

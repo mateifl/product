@@ -19,7 +19,7 @@ public class ProductRepositoryTest {
 
 	@Test
 	public void testLoad() {
-		Product product = productRepository.findOne(3);
+		Product product = productRepository.findById(3).get();
 		assertTrue(product.getProductId() == 3);
 	}
 

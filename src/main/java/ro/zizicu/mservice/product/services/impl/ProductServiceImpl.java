@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product loadProduct(Integer productId) {
-		Product product = repository.findOne(productId);
+		Product product = repository.findById(productId).get();
 		return product;
 	}
 
@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Category loadCategory(Integer id) {
-		Category category = categoryRepository.findOne(id);
+		Category category = categoryRepository.findById(id).get();
 		return category;
 	}
 
@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Supplier loadSupplier(Integer id) {
-		Supplier supplier = supplierRepository.findOne(id);
+		Supplier supplier = supplierRepository.findById(id).get();
 		return supplier;
 	}
 
