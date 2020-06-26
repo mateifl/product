@@ -15,18 +15,19 @@ import ro.zizicu.mservice.product.entities.Category;
  */
 
 @RestController
+@RequestMapping(value = "categories")
 public class CategoryController {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
-	@RequestMapping(value = "/category/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Category load(@PathVariable Integer id)
 	{
 		return categoryRepository.findById(id).get();
 	}
 	
-	@RequestMapping(value = "/categories", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public Iterable<Category> loadAll()
 	{
 		return categoryRepository.findAll();

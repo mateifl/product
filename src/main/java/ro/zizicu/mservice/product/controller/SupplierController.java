@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ro.zizicu.mservice.product.data.SupplierRepository;
 import ro.zizicu.mservice.product.entities.Supplier;
-
+// TODO do I need this? 
 @RestController
 public class SupplierController {
 
