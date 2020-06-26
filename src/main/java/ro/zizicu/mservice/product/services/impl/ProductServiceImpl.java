@@ -9,6 +9,7 @@ import ro.zizicu.mservice.product.data.SupplierRepository;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
+import ro.zizicu.mservice.product.exceptions.ProductNotFoundException;
 import ro.zizicu.mservice.product.services.ProductService;
 
 @Service
@@ -22,10 +23,11 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	@Transactional
-	public void createProduct(Product product, Category category, Supplier supplier) {
+	public Product createProduct(Product product, Category category, Supplier supplier) {
 		product.setCategory(category);
 		product.setSupplier(supplier);
-		repository.save(product);
+		Product saved = repository.save(product);
+		return saved;
 	}
 
 	@Override
@@ -71,6 +73,23 @@ public class ProductServiceImpl implements ProductService {
 		return repository.findAll();
 	}
 
-	
+	@Override
+	@Transactional
+	/** Executes a full or partial update on the product, after loading the product from the
+	 * database.
+	 */
+	public Product updateProduct(Product p) {
+		Product fromDatabase = repository.findById(p.getProductId()).orElse(null);
+		if(fromDatabase == null)
+			throw new ProductNotFoundException();
+		if(p.getDiscontinued() != null)
+			fromDatabase.setDiscontinued(p.getDiscontinued());
+		if(p.getUnitsInStock() != null)
+			fromDatabase.setUnitsInStock(p.getUnitsInStock());
+		if(p.getUnitsOnOrder() != null)
+			fromDatabase.setUnitsOnOrder(p.getUnitsOnOrder());
+		Product saved = repository.save(fromDatabase);
+		return saved;
+	}
 	
 }

@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,10 +32,9 @@ public class ProductController {
 	@Autowired
 	private CategoryService categoryService;
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String getProducts() {
-//		productService.
-		return "test";
+	@GetMapping(value = "/")
+	public Iterable<Product> getProducts() {
+		return productService.getProducts();
 	}
 	
 	@PostMapping(value = "/{categoryId}/{supplierId}")
@@ -52,11 +53,11 @@ public class ProductController {
 		
 		product.setCategory(category);
 		product.setSupplier(supplier);
-		productService.createProduct(product, category, supplier);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		product = productService.createProduct(product, category, supplier);
+		return ResponseEntity.ok(product);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/{id}")
 	public Product getProduct(@PathVariable Integer id) {
 		logger.info("load product with id: " + id);
 		Product product = productService.loadProduct(id);
@@ -64,9 +65,12 @@ public class ProductController {
 		return product;
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void updateProduct(@PathVariable Integer id, @RequestBody Product product) {
-		
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
+		logger.debug("update product: " + id);
+		product.setProductId(id);
+		product = productService.updateProduct(product);
+		return ResponseEntity.ok(product);
 	}
 	
 }

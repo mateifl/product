@@ -5,10 +5,11 @@ import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
 
 public interface ProductService {
-	void createProduct(Product product, Category category, Supplier supplier);
+	Product createProduct(Product product, Category category, Supplier supplier);
 	void discontinueProduct(Product product);
 	void deleteProduct(Product p);
-	
+	/** Execute a full or partial update on the product */
+	Product updateProduct(Product p);
 	Product loadProduct(Integer id);
 
 	void createSupplier(Supplier supplier);

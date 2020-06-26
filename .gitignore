@@ -1,0 +1,7 @@
+/target/
+product.log
+.settings
+.sts4-cache
+.vscode
+.classpath
+.project
