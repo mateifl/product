@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ro.zizicu.mservice.product.data.ProductRepository;
-import ro.zizicu.mservice.product.data.SupplierRepository;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
@@ -17,13 +16,10 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	private ProductRepository repository;
-
-	@Autowired 
-	private SupplierRepository supplierRepository;
 	
 	@Override
 	@Transactional
-	public Product createProduct(Product product, Category category, Supplier supplier) {
+	public Product create(Product product, Category category, Supplier supplier) {
 		product.setCategory(category);
 		product.setSupplier(supplier);
 		Product saved = repository.save(product);
@@ -39,33 +35,14 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional
-	public void deleteProduct(Product p) {
+	public void delete(Product p) {
 		repository.delete(p);
 	}
 
 	@Override
-	public Product loadProduct(Integer productId) {
+	public Product load(Integer productId) {
 		Product product = repository.findById(productId).get();
 		return product;
-	}
-
-	@Override
-	public void createSupplier(Supplier supplier) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public Supplier loadSupplier(Integer id) {
-		Supplier supplier = supplierRepository.findById(id).get();
-		return supplier;
-	}
-
-	@Override
-	public void deleteSupplier(Supplier supplier) {
-		supplierRepository.delete(supplier);
-		
 	}
 
 	@Override
@@ -78,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
 	/** Executes a full or partial update on the product, after loading the product from the
 	 * database.
 	 */
-	public Product updateProduct(Product p) {
+	public Product update(Product p) {
 		Product fromDatabase = repository.findById(p.getProductId()).orElse(null);
 		if(fromDatabase == null)
 			throw new EntityNotFoundException();

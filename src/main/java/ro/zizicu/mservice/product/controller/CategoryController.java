@@ -38,7 +38,7 @@ public class CategoryController {
 	public ResponseEntity<?> load(@PathVariable @Min(1) Integer id)
 	{
 		try {
-			return ResponseEntity.ok(categoryService.loadCategory(id));
+			return ResponseEntity.ok(categoryService.load(id));
 		}
 		catch(EntityNotFoundException e) {
 			String errorMessage = "category not found, id:" + id;
@@ -50,13 +50,13 @@ public class CategoryController {
 	@GetMapping(value = "/")
 	public Iterable<Category> loadAll()
 	{
-		return categoryService.getCategories();
+		return categoryService.getAll();
 	}
 	
 	@PostMapping(value = "/")
 	public ResponseEntity<?> create(@RequestBody Category category) {
 		try {
-			Category c = categoryService.createCategory(category);
+			Category c = categoryService.create(category);
 			HttpHeaders responseHeaders = new HttpHeaders();
 			responseHeaders.add("Location", "categories/" + c.getCategoryId());
 			return ResponseEntity.ok().headers(responseHeaders).body(c);
@@ -70,8 +70,10 @@ public class CategoryController {
 	
 	@PatchMapping(value = "/{id}") 
 	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Category category) {
+		logger.debug("update category id: " + id);
+		category.setCategoryId(id);
 		try {
-			return ResponseEntity.ok(categoryService.updateCategory(category));
+			return ResponseEntity.ok(categoryService.update(category));
 		}
 		catch (Exception e) {
 			String errorMessage = e.getMessage();
@@ -83,7 +85,7 @@ public class CategoryController {
 	@DeleteMapping(value="/")
 	public ResponseEntity<?> delete(@RequestBody Category category) {
 		try {
-			categoryService.deleteCategory(category);
+			categoryService.delete(category);
 			return ResponseEntity.ok("deleted");
 		}
 		catch (Exception e) {
