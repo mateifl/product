@@ -7,16 +7,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 @Entity 
 @Table(name = "categories")
 public class Category {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "categoryid")
 	private Integer categoryId;
 	@Column(name = "categoryname")
+	@NotEmpty(message="category name is mandatory")
+	@Size(min=1, max=15, message = "category name must be between 1 and 15 characters long")
 	private String categoryName;
+	@NotEmpty(message="description is mandatory")
 	private String description;
+	@NotEmpty(message="picture path is mandatory")
+	@Size(min=1, max=50, message = "picture path must be between 1 and 50 characters long")
 	private String picture;
 
 	public Category() {}

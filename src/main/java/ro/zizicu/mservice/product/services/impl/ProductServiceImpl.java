@@ -9,7 +9,7 @@ import ro.zizicu.mservice.product.data.SupplierRepository;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
-import ro.zizicu.mservice.product.exceptions.ProductNotFoundException;
+import ro.zizicu.mservice.product.exceptions.EntityNotFoundException;
 import ro.zizicu.mservice.product.services.ProductService;
 
 @Service
@@ -81,7 +81,11 @@ public class ProductServiceImpl implements ProductService {
 	public Product updateProduct(Product p) {
 		Product fromDatabase = repository.findById(p.getProductId()).orElse(null);
 		if(fromDatabase == null)
-			throw new ProductNotFoundException();
+			throw new EntityNotFoundException();
+		if(p.getCategory() != null)
+			fromDatabase.setCategory(p.getCategory());
+		if(p.getQuantityPerUnit() != null)
+			fromDatabase.setQuantityPerUnit(p.getQuantityPerUnit());
 		if(p.getDiscontinued() != null)
 			fromDatabase.setDiscontinued(p.getDiscontinued());
 		if(p.getUnitsInStock() != null)

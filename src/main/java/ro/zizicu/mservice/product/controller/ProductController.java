@@ -7,17 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
+import ro.zizicu.mservice.product.exceptions.EntityNotFoundException;
 import ro.zizicu.mservice.product.services.CategoryService;
 import ro.zizicu.mservice.product.services.ProductService;
 
@@ -25,7 +25,7 @@ import ro.zizicu.mservice.product.services.ProductService;
 @RequestMapping(value = "products")
 public class ProductController {
 
-	private static Logger logger = LoggerFactory.getLogger(Product.class);
+	private static Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	@Autowired
 	private ProductService productService;
@@ -65,12 +65,19 @@ public class ProductController {
 		return product;
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
+	@PatchMapping(value = "/{id}")
+	public ResponseEntity<?> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
 		logger.debug("update product: " + id);
 		product.setProductId(id);
-		product = productService.updateProduct(product);
-		return ResponseEntity.ok(product);
+		try {
+			product = productService.updateProduct(product);
+			return ResponseEntity.ok(product);
+		}
+		catch(EntityNotFoundException e) {
+			String errorMessage = "product not found, id:" + id;
+			logger.error(errorMessage);
+			return ResponseEntity.badRequest().body(errorMessage);
+		}
 	}
 	
 }
