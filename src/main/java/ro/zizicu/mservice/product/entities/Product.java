@@ -12,13 +12,15 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ro.zizicu.nwbase.entity.IdentityOwner;
+
 @Entity
 @Table(name = "products")
-public class Product {
+public class Product implements IdentityOwner<Integer> {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "productid")
-	private Integer productId;
+	private Integer id;
 	@Column(name = "productname")
 	private String productName;
 	@Column(name = "quantityperunit")
@@ -43,11 +45,11 @@ public class Product {
 	@JsonIgnore
 	private Category category;
 	
-	public Integer getProductId() {
-		return productId;
+	public Integer getId() {
+		return id;
 	}
-	public void setProductId(Integer productId) {
-		this.productId = productId;
+	public void setId(Integer productId) {
+		this.id = productId;
 	}
 	public String getProductName() {
 		return productName;

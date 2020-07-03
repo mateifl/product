@@ -1,24 +1,17 @@
 package ro.zizicu.mservice.product.controller;
 
-import javax.validation.constraints.Min;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ro.zizicu.mservice.product.entities.Category;
-import ro.zizicu.mservice.product.exceptions.EntityNotFoundException;
 import ro.zizicu.mservice.product.services.CategoryService;
+import ro.zizicu.nwbase.controller.BasicOperationsController;
 
 /**
  * Category Spring MVC controller.
@@ -27,53 +20,17 @@ import ro.zizicu.mservice.product.services.CategoryService;
 
 @RestController
 @RequestMapping(value = "categories")
-public class CategoryController {
+public class CategoryController 
+	extends BasicOperationsController<Category, Integer, CategoryService> {
 	
 	private static Logger logger = LoggerFactory.getLogger(CategoryController.class);
-	
-	@Autowired
-	private CategoryService categoryService;
-	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> load(@PathVariable @Min(1) Integer id)
-	{
-		try {
-			return ResponseEntity.ok(categoryService.load(id));
-		}
-		catch(EntityNotFoundException e) {
-			String errorMessage = "category not found, id:" + id;
-			logger.error(errorMessage);
-			return ResponseEntity.badRequest().body(errorMessage);
-		}
-	}
-	
-	@GetMapping(value = "/")
-	public Iterable<Category> loadAll()
-	{
-		return categoryService.getAll();
-	}
-	
-	@PostMapping(value = "/")
-	public ResponseEntity<?> create(@RequestBody Category category) {
-		try {
-			Category c = categoryService.create(category);
-			HttpHeaders responseHeaders = new HttpHeaders();
-			responseHeaders.add("Location", "categories/" + c.getCategoryId());
-			return ResponseEntity.ok().headers(responseHeaders).body(c);
-		}
-		catch (Exception e) {
-			String errorMessage = e.getMessage();
-			logger.error(errorMessage, e);
-			return ResponseEntity.badRequest().body(errorMessage);
-		}
-	}
-	
+
 	@PatchMapping(value = "/{id}") 
 	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Category category) {
 		logger.debug("update category id: " + id);
-		category.setCategoryId(id);
+		category.setId(id);
 		try {
-			return ResponseEntity.ok(categoryService.update(category));
+			return ResponseEntity.ok(service.update(category));
 		}
 		catch (Exception e) {
 			String errorMessage = e.getMessage();
@@ -81,18 +38,5 @@ public class CategoryController {
 			return ResponseEntity.badRequest().body(errorMessage);
 		}
 	}
-	
-	@DeleteMapping(value="/")
-	public ResponseEntity<?> delete(@RequestBody Category category) {
-		try {
-			categoryService.delete(category);
-			return ResponseEntity.ok("deleted");
-		}
-		catch (Exception e) {
-			String errorMessage = e.getMessage();
-			logger.error(errorMessage, e);
-			return ResponseEntity.badRequest().body(errorMessage);
-		}
-	}
-	
+
 }

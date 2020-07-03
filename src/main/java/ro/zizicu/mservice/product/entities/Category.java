@@ -6,21 +6,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import ro.zizicu.nwbase.entity.NamedIdentityOwner;
+
 @Entity 
 @Table(name = "categories")
-public class Category {
+public class Category implements NamedIdentityOwner<Integer> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "categoryid")
-	private Integer categoryId;
+	private Integer id;
 	@Column(name = "categoryname")
 	@NotEmpty(message="category name is mandatory")
 	@Size(min=1, max=15, message = "category name must be between 1 and 15 characters long")
-	private String categoryName;
+	private String name;
 	@NotEmpty(message="description is mandatory")
 	private String description;
 	@NotEmpty(message="picture path is mandatory")
@@ -31,23 +32,23 @@ public class Category {
 
 	public Category(Integer categoryId, String categoryName, String description, String picture) {
 		super();
-		this.categoryId = categoryId;
-		this.categoryName = categoryName;
+		this.id = categoryId;
+		this.name = categoryName;
 		this.description = description;
 		this.picture = picture;
 	}
 
-	public Integer getCategoryId() {
-		return categoryId;
+	public Integer getId() {
+		return id;
 	}
-	public void setCategoryId(Integer categoryId) {
-		this.categoryId = categoryId;
+	public void setId(Integer categoryId) {
+		this.id = categoryId;
 	}
-	public String getCategoryName() {
-		return categoryName;
+	public String getName() {
+		return name;
 	}
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
+	public void setName(String categoryName) {
+		this.name = categoryName;
 	}
 	public String getDescription() {
 		return description;

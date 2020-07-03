@@ -56,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
 	 * database.
 	 */
 	public Product update(Product p) {
-		Product fromDatabase = repository.findById(p.getProductId()).orElse(null);
+		Product fromDatabase = repository.findById(p.getId()).orElse(null);
 		if(fromDatabase == null)
 			throw new EntityNotFoundException();
 		if(p.getCategory() != null)

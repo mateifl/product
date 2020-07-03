@@ -20,11 +20,11 @@ public class CategoryRepositoryTest {
 	@Test
 	public void testSaveCategory() {
 		Category c = new Category();
-		c.setCategoryName("Test1");
+		c.setName("Test1");
 		c.setDescription("Category description");
 		c.setPicture("Picture test1");
 		repository.save(c);
-		assertTrue("save category", c.getCategoryId() != null);
+		assertTrue("save category", c.getId() != null);
 		repository.delete(c);
 		
 	}
@@ -32,6 +32,6 @@ public class CategoryRepositoryTest {
 	@Test
 	public void testLoadCategory() {
 		Category c = repository.findById(1).get();
-		assertTrue("load category", c.getCategoryId() == 1);
+		assertTrue("load category", c.getId() == 1);
 	}
 }

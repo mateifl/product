@@ -64,14 +64,14 @@ public class ProductController {
 	public Product getProduct(@PathVariable Integer id) {
 		logger.info("load product with id: " + id);
 		Product product = productService.load(id);
-		logger.debug("Supplier name: " + product.getSupplier().getCompanyName());
+		logger.debug("Supplier name: " + product.getSupplier().getName());
 		return product;
 	}
 	
 	@PatchMapping(value = "/{id}")
 	public ResponseEntity<?> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
 		logger.debug("update product: " + id);
-		product.setProductId(id);
+		product.setId(id);
 		try {
 			product = productService.update(product);
 			return ResponseEntity.ok(product);

@@ -5,15 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import ro.zizicu.nwbase.entity.NamedIdentityOwner;
+
 @Entity
 @Table(name = "suppliers")
-public class Supplier {
+public class Supplier implements NamedIdentityOwner<Integer> {
 	
 	@Id
 	@Column(name="supplierid")
-	private Integer supplierId;
+	private Integer id;
 	@Column(name="companyname")
-	private String companyName;
+	private String name;
 	@Column(name="contactname")
 	private String contactName;
 	@Column(name="contacttitle")
@@ -29,17 +31,17 @@ public class Supplier {
 	@Column(name="homepage")
 	private String homePage;
 
-	public Integer getSupplierId() {
-		return supplierId;
+	public Integer getId() {
+		return id;
 	}
 	public void setSupplierId(Integer supplierId) {
-		this.supplierId = supplierId;
+		this.id = supplierId;
 	}
-	public String getCompanyName() {
-		return companyName;
+	public String getName() {
+		return name;
 	}
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
+	public void setName(String companyName) {
+		this.name = companyName;
 	}
 	public String getContactName() {
 		return contactName;
