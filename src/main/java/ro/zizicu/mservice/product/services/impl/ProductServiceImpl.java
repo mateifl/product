@@ -8,8 +8,8 @@ import ro.zizicu.mservice.product.data.ProductRepository;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
-import ro.zizicu.mservice.product.exceptions.EntityNotFoundException;
 import ro.zizicu.mservice.product.services.ProductService;
+import ro.zizicu.nwbase.exceptions.EntityNotFoundException;
 
 @Service
 public class ProductServiceImpl implements ProductService {

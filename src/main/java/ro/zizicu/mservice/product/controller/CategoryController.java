@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ro.zizicu.mservice.product.entities.Category;
-import ro.zizicu.mservice.product.services.CategoryService;
-import ro.zizicu.nwbase.controller.BasicOperationsController;
+import ro.zizicu.nwbase.controller.NamedEntityController;
 
 /**
  * Category Spring MVC controller.
@@ -21,7 +20,7 @@ import ro.zizicu.nwbase.controller.BasicOperationsController;
 @RestController
 @RequestMapping(value = "categories")
 public class CategoryController 
-	extends BasicOperationsController<Category, Integer, CategoryService> {
+	extends NamedEntityController<Category, Integer> {
 	
 	private static Logger logger = LoggerFactory.getLogger(CategoryController.class);
 

@@ -1,16 +1,15 @@
 package ro.zizicu.mservice.product.services.impl;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ro.zizicu.mservice.product.entities.Category;
-import ro.zizicu.mservice.product.exceptions.EntityNotFoundException;
 import ro.zizicu.mservice.product.services.CategoryService;
-import ro.zizicu.nwbase.impl.CrudServiceImpl;
+import ro.zizicu.nwbase.exceptions.EntityNotFoundException;
+import ro.zizicu.nwbase.service.impl.NamedServiceImpl;
 
 @Service
-public class CategoryServiceImpl extends CrudServiceImpl<CrudRepository<Category, Integer>, Category, Integer>
+public class CategoryServiceImpl extends NamedServiceImpl<Category, Integer>
 	implements CategoryService {
 	
 	@Override
@@ -27,12 +26,6 @@ public class CategoryServiceImpl extends CrudServiceImpl<CrudRepository<Category
 			fromDatabase.setPicture(category.getPicture());
 		fromDatabase = repository.save(fromDatabase);
 		return fromDatabase;
-	}
-
-	@Override
-	public Category loadByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

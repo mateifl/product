@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
-import ro.zizicu.mservice.product.exceptions.EntityNotFoundException;
 import ro.zizicu.mservice.product.services.CategoryService;
 import ro.zizicu.mservice.product.services.ProductService;
 import ro.zizicu.mservice.product.services.SupplierService;
+import ro.zizicu.nwbase.exceptions.EntityNotFoundException;
 
 @RestController
 @RequestMapping(value = "products")

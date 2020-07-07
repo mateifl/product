@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import ro.zizicu.mservice.product.exceptions.EntityNotFoundException;
+import ro.zizicu.nwbase.exceptions.EntityNotFoundException;
 
 
 public abstract class AbstractService<U, T extends CrudRepository<U, Integer>> {

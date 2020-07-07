@@ -1,19 +1,20 @@
 package ro.zizicu.mservice.product.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ro.zizicu.mservice.product.entities.Supplier;
-import ro.zizicu.mservice.product.services.SupplierService;
-import ro.zizicu.nwbase.controller.BasicOperationsController;
+import ro.zizicu.nwbase.controller.NamedEntityController;
 
 @RestController
 @RequestMapping(value = "suppliers")
 public class SupplierController 
-	extends BasicOperationsController<Supplier, Integer, SupplierService> {
+	extends NamedEntityController<Supplier, Integer> {
 
-	@Autowired
-	private SupplierService supplierService;
+	private static Logger logger = LoggerFactory.getLogger(SupplierController.class);
+	
+
 
 }
