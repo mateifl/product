@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import ro.zizicu.nwbase.entity.IdentityOwner;
 
 @Entity
-@Table(name = "products")
+@Table(name = "Products")
 public class Product implements IdentityOwner<Integer> {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

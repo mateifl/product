@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity 
-@Table(name = "categories")
+@Table(name = "Categories")
 public class Category implements NamedIdentityOwner<Integer> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

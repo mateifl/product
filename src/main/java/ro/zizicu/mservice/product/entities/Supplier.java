@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity
-@Table(name = "suppliers")
+@Table(name = "Suppliers")
 public class Supplier implements NamedIdentityOwner<Integer> {
 	
 	@Id
