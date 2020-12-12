@@ -104,5 +104,14 @@ public class Supplier implements NamedIdentityOwner<Integer> {
 		this.homePage = homePage;
 	}
 	
+	@Override
+	public String getEntityName() {
+		return "Supplier";
+	}
+	@Override
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	
 }

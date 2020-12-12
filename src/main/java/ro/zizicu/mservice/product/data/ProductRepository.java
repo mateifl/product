@@ -7,15 +7,9 @@ import org.springframework.data.repository.CrudRepository;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
+import ro.zizicu.nwbase.data.NamedEntityRepository;
 
-public interface ProductRepository extends CrudRepository<Product, Integer> {
-	
-	/**
-	 *  
-	 *  */
-
-	List<Product> findByProductName(String productName);
-	
+public interface ProductRepository extends CrudRepository<Product, Integer>, NamedEntityRepository<Product, Integer> {
 	/** */
 	List<Product> findByCategory(Category category);
 	

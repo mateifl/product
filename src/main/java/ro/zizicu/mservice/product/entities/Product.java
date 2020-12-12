@@ -12,17 +12,17 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ro.zizicu.nwbase.entity.IdentityOwner;
+import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity
 @Table(name = "Products")
-public class Product implements IdentityOwner<Integer> {
+public class Product implements NamedIdentityOwner<Integer> {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "productid")
 	private Integer id;
 	@Column(name = "productname")
-	private String productName;
+	private String name;
 	@Column(name = "quantityperunit")
 	private String quantityPerUnit;
 	@Column(name = "unitprice")
@@ -44,18 +44,21 @@ public class Product implements IdentityOwner<Integer> {
 	@JoinColumn(name="categoryid")
 	@JsonIgnore
 	private Category category;
-	
+	@Override
 	public Integer getId() {
 		return id;
 	}
+	@Override
 	public void setId(Integer productId) {
 		this.id = productId;
 	}
-	public String getProductName() {
-		return productName;
+	@Override
+	public String getName() {
+		return name;
 	}
-	public void setProductName(String productName) {
-		this.productName = productName;
+	@Override
+	public void setName(String productName) {
+		this.name = productName;
 	}
 	public String getQuantityPerUnit() {
 		return quantityPerUnit;
@@ -104,5 +107,10 @@ public class Product implements IdentityOwner<Integer> {
 	}
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	
+	@Override
+	public String getEntityName() {
+		return "Product";
 	}
 }

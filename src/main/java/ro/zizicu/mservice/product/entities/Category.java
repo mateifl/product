@@ -38,15 +38,22 @@ public class Category implements NamedIdentityOwner<Integer> {
 		this.picture = picture;
 	}
 
+	@Override
 	public Integer getId() {
 		return id;
 	}
+	
+	@Override
 	public void setId(Integer categoryId) {
 		this.id = categoryId;
 	}
+	
+	@Override
 	public String getName() {
 		return name;
 	}
+	
+	@Override
 	public void setName(String categoryName) {
 		this.name = categoryName;
 	}
@@ -61,5 +68,10 @@ public class Category implements NamedIdentityOwner<Integer> {
 	}
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	@Override
+	public String getEntityName() {
+		return "Category";
 	}
 }

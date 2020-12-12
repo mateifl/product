@@ -10,9 +10,10 @@ import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
 import ro.zizicu.mservice.product.services.ProductService;
 import ro.zizicu.nwbase.exceptions.EntityNotFoundException;
+import ro.zizicu.nwbase.service.impl.NamedServiceImpl;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends NamedServiceImpl<Product, Integer> implements ProductService {
 	
 	@Autowired
 	private ProductRepository repository;
@@ -31,23 +32,6 @@ public class ProductServiceImpl implements ProductService {
 	public void discontinueProduct(Product product) {
 		product.setDiscontinued("y");
 		repository.save(product);
-	}
-
-	@Override
-	@Transactional
-	public void delete(Product p) {
-		repository.delete(p);
-	}
-
-	@Override
-	public Product load(Integer productId) {
-		Product product = repository.findById(productId).get();
-		return product;
-	}
-
-	@Override
-	public Iterable<Product> getProducts() {
-		return repository.findAll();
 	}
 
 	@Override
