@@ -9,10 +9,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity 
 @Table(name = "Categories")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Category implements NamedIdentityOwner<Integer> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,16 +31,6 @@ public class Category implements NamedIdentityOwner<Integer> {
 	@NotEmpty(message="picture path is mandatory")
 	@Size(min=1, max=50, message = "picture path must be between 1 and 50 characters long")
 	private String picture;
-
-	public Category() {}
-
-	public Category(Integer categoryId, String categoryName, String description, String picture) {
-		super();
-		this.id = categoryId;
-		this.name = categoryName;
-		this.description = description;
-		this.picture = picture;
-	}
 
 	@Override
 	public Integer getId() {

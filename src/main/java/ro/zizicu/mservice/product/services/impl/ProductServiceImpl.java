@@ -34,11 +34,11 @@ public class ProductServiceImpl extends NamedServiceImpl<Product, Integer> imple
 		repository.save(product);
 	}
 
-	@Override
-	@Transactional
 	/** Executes a full or partial update on the product, after loading the product from the
 	 * database.
 	 */
+	@Override
+	@Transactional
 	public Product update(Product p) {
 		Product fromDatabase = repository.findById(p.getId()).orElse(null);
 		if(fromDatabase == null)
