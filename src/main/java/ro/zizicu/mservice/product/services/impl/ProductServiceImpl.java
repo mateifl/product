@@ -1,5 +1,6 @@
 package ro.zizicu.mservice.product.services.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,18 +14,17 @@ import ro.zizicu.nwbase.exceptions.EntityNotFoundException;
 import ro.zizicu.nwbase.service.impl.NamedServiceImpl;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl extends NamedServiceImpl<Product, Integer> implements ProductService {
-	
-	@Autowired
-	private ProductRepository repository;
+
+	private final ProductRepository repository;
 	
 	@Override
 	@Transactional
 	public Product create(Product product, Category category, Supplier supplier) {
 		product.setCategory(category);
 		product.setSupplier(supplier);
-		Product saved = repository.save(product);
-		return saved;
+		return repository.save(product);
 	}
 
 	@Override
@@ -53,8 +53,7 @@ public class ProductServiceImpl extends NamedServiceImpl<Product, Integer> imple
 			fromDatabase.setUnitsInStock(p.getUnitsInStock());
 		if(p.getUnitsOnOrder() != null)
 			fromDatabase.setUnitsOnOrder(p.getUnitsOnOrder());
-		Product saved = repository.save(fromDatabase);
-		return saved;
+		return repository.save(fromDatabase);
 	}
 	
 }
