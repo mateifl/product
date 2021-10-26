@@ -1,12 +1,11 @@
 package ro.zizicu.mservice.product.data;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ro.zizicu.mservice.product.entities.Category;
-
-import static org.junit.Assert.*;
 
 
 @SpringBootTest
@@ -22,7 +21,7 @@ public class CategoryRepositoryTest {
 		c.setDescription("Category description");
 		c.setPicture("Picture test1");
 		repository.save(c);
-		assertNotNull("save category", c.getId());
+		Assertions.assertNotNull(c.getId(), "save category");
 		repository.delete(c);
 		
 	}
@@ -30,6 +29,6 @@ public class CategoryRepositoryTest {
 	@Test
 	public void testLoadCategory() {
 		Category c = repository.findById(1).get();
-		assertEquals("load category", 1, (int) c.getId());
+		Assertions.assertEquals(1, (int) c.getId(), "load category");
 	}
 }

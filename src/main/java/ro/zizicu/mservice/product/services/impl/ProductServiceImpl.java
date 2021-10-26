@@ -30,7 +30,7 @@ public class ProductServiceImpl extends NamedServiceImpl<Product, Integer> imple
 	@Override
 	@Transactional
 	public void discontinueProduct(Product product) {
-		product.setDiscontinued("y");
+		product.setDiscontinued(true);
 		repository.save(product);
 	}
 

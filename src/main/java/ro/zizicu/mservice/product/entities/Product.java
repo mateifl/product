@@ -34,7 +34,7 @@ public class Product implements NamedIdentityOwner<Integer> {
 	@Column(name = "reorderlevel")
 	private Integer reorderLevel;
 	@Column(name = "discontinued")
-	private String discontinued;
+	private Boolean discontinued;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="supplierid")
@@ -90,10 +90,10 @@ public class Product implements NamedIdentityOwner<Integer> {
 	public void setReorderLevel(Integer reorderLevel) {
 		this.reorderLevel = reorderLevel;
 	}
-	public String getDiscontinued() {
+	public Boolean getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(String discontinued) {
+	public void setDiscontinued(Boolean discontinued) {
 		this.discontinued = discontinued;
 	}
 	public Supplier getSupplier() {

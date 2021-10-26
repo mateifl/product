@@ -1,7 +1,6 @@
 package ro.zizicu.mservice.product.data;
 
-import static org.junit.Assert.assertTrue;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +16,7 @@ public class SupplierRepositoryTest {
 	@Test
 	public void testLoadSupplier() {
 		Supplier s = supplierRepository.findById(2).get();
-		assertTrue("test load supplier", s != null);
+		Assertions.assertNotNull(s, "test load supplier");
 	}
 	
 }
