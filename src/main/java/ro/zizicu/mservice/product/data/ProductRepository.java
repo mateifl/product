@@ -9,10 +9,14 @@ import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
 import ro.zizicu.nwbase.data.NamedEntityRepository;
 
-public interface ProductRepository extends CrudRepository<Product, Integer>, NamedEntityRepository<Product, Integer> {
+public interface ProductRepository extends CrudRepository<Product, Integer>, NamedEntityRepository<Product, Integer>, ProductRepositoryCustom {
 	/** */
 	List<Product> findByCategory(Category category);
 	
 	/** */
 	List<Product> findBySupplier(Supplier supplier);
+	
+	
+	
+	
 }

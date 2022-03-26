@@ -1,5 +1,8 @@
 package ro.zizicu.mservice.product.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,5 +18,12 @@ public class ProductController
 	protected String getLocation() {
 		return "products";
 	}
+	
+
+	@GetMapping("?name={name}&categoryId={categoryId}&supplierId={supplierId}")
+	public List<Product> find() {
+		return null;
+	}
+	
 	
 }

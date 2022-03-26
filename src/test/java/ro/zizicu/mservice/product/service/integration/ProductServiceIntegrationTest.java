@@ -1,5 +1,13 @@
 package ro.zizicu.mservice.product.service.integration;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,9 +18,6 @@ import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
 import ro.zizicu.mservice.product.services.ProductService;
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
 
 @SpringBootTest
 @Slf4j
@@ -67,5 +72,22 @@ public class ProductServiceIntegrationTest {
 		assertNotNull(created);
 		productService.delete(created);
 	}
+	
+	@Test
+	void filterProductTestByName() {
+		Optional<List<Product>> optionalProductList = productService.find("Gu%", null, null);
+		assertFalse(optionalProductList.isEmpty());
+		assertFalse(optionalProductList.get().isEmpty());
+	}
+	
+	@Test
+	void filterProductTestByNameAndCategory() {
+		Category category = new Category();
+		category.setId(1);
+		Optional<List<Product>> optionalProductList = productService.find("Ch%", category, null);
+		assertFalse(optionalProductList.isEmpty());
+		assertFalse(optionalProductList.get().isEmpty());
+	}
+	
 	
 }

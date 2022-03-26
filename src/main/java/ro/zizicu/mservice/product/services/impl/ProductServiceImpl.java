@@ -1,10 +1,12 @@
 package ro.zizicu.mservice.product.services.impl;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
 import ro.zizicu.mservice.product.data.ProductRepository;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
@@ -20,7 +22,7 @@ public class ProductServiceImpl extends NamedServiceImpl<Product, Integer> imple
 	private final ProductRepository repository;
 	
 	@Override
-	@Transactional
+	@Transactional              
 	public Product create(Product product, Category category, Supplier supplier) {
 		product.setCategory(category);
 		product.setSupplier(supplier);
@@ -56,4 +58,8 @@ public class ProductServiceImpl extends NamedServiceImpl<Product, Integer> imple
 		return repository.save(fromDatabase);
 	}
 	
+	@Override
+	public Optional<List<Product>> find(String name, Category category, Supplier supplier) {
+		return repository.find(name, category, supplier);
+	}
 }
