@@ -14,5 +14,5 @@ public interface ProductService extends NamedService<Product, Integer>, CrudServ
 	void discontinueProduct(Product product);
 	/** Execute a full or partial update on the product */
 	Product update(Product p);
-	Optional<List<Product>> find(String name, Category category, Supplier supplier);
+	Optional<List<Product>> find(String name, Integer categoryId, Integer supplierId);
 }

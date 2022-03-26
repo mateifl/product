@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,6 +23,7 @@ public class Product implements NamedIdentityOwner<Integer> {
 	@Column(name = "productid")
 	private Integer id;
 	@Column(name = "productname")
+	@NotBlank
 	private String name;
 	@Column(name = "quantityperunit")
 	private String quantityPerUnit;

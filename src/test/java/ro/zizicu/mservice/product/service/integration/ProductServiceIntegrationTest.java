@@ -82,9 +82,7 @@ public class ProductServiceIntegrationTest {
 	
 	@Test
 	void filterProductTestByNameAndCategory() {
-		Category category = new Category();
-		category.setId(1);
-		Optional<List<Product>> optionalProductList = productService.find("Ch%", category, null);
+		Optional<List<Product>> optionalProductList = productService.find("Ch%", 1, null);
 		assertFalse(optionalProductList.isEmpty());
 		assertFalse(optionalProductList.get().isEmpty());
 	}

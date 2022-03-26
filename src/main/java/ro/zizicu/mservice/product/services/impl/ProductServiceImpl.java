@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import ro.zizicu.mservice.product.data.CategoryRepository;
 import ro.zizicu.mservice.product.data.ProductRepository;
+import ro.zizicu.mservice.product.data.SupplierRepository;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
@@ -20,7 +22,8 @@ import ro.zizicu.nwbase.service.impl.NamedServiceImpl;
 public class ProductServiceImpl extends NamedServiceImpl<Product, Integer> implements ProductService {
 
 	private final ProductRepository repository;
-	
+	private final CategoryRepository categoryRepository; 
+	private final SupplierRepository supplierRepository;
 	@Override
 	@Transactional              
 	public Product create(Product product, Category category, Supplier supplier) {
@@ -59,7 +62,9 @@ public class ProductServiceImpl extends NamedServiceImpl<Product, Integer> imple
 	}
 	
 	@Override
-	public Optional<List<Product>> find(String name, Category category, Supplier supplier) {
+	public Optional<List<Product>> find(String name, Integer categoryId, Integer supplierId) {
+		Optional<Category> category = categoryId == null ? Optional.empty() : categoryRepository.findById(categoryId);
+		Optional<Supplier> supplier = supplierId == null ? Optional.empty() : supplierRepository.findById(supplierId);
 		return repository.find(name, category, supplier);
 	}
 }

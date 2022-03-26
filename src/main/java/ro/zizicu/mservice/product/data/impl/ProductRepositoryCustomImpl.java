@@ -28,14 +28,14 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 	private final EntityManager em;
 	
 	@Override
-	public Optional<List<Product>> find(String name, Category category, Supplier supplier) {
+	public Optional<List<Product>> find(String name, Optional<Category> category, Optional<Supplier> supplier) {
 		log.debug("find ");
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
 		Root<Product> root = criteriaQuery.from(Product.class);
-		Optional<Predicate>	categoryPredicate = category == null ? Optional.empty() : 
+		Optional<Predicate>	categoryPredicate = category.isEmpty() ? Optional.empty() : 
 							Optional.of(criteriaBuilder.equal(root.get("category"), category));  
-		Optional<Predicate>	supplierPredicate = supplier == null ? Optional.empty() : 
+		Optional<Predicate>	supplierPredicate = supplier.isEmpty() ? Optional.empty() : 
 							Optional.of(criteriaBuilder.equal(root.get("supplier"), supplier));
 		Optional<Predicate>	namePredicate = name == null ? Optional.empty() : 
 							Optional.of(criteriaBuilder.like(root.get("name"), name));
