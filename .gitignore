@@ -6,3 +6,6 @@ product.log
 .classpath
 .project
 .idea
+/target/
+/.apt_generated/
+/.apt_generated_tests/
