@@ -16,7 +16,4 @@ public interface ProductRepository extends CrudRepository<Product, Integer>, Nam
 	/** */
 	List<Product> findBySupplier(Supplier supplier);
 	
-	
-	
-	
 }

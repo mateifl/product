@@ -28,13 +28,12 @@ public class ProductController
 	protected String getLocation() {
 		return "products";
 	}
-	
 
-	@GetMapping(value = "?name={name}&categoryId={categoryId}&supplierId={supplierId}")
+	@GetMapping(value = "/search")
 	public ResponseEntity<?> find(@RequestParam String name, 
 			@RequestParam Integer categoryId, 
 			@RequestParam Integer supplierId) {
-		log.debug("filtering products");
+		log.debug("filtering products {} {}", name, categoryId.toString());
 		Optional<List<Product>> products =  productService.find(name, categoryId, supplierId);
 		if(products.isPresent())
 			return ResponseEntity.ok().body(products);
