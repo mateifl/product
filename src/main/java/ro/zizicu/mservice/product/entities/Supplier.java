@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
@@ -15,6 +16,7 @@ public class Supplier implements NamedIdentityOwner<Integer> {
 	@Column(name="supplierid")
 	private Integer id;
 	@Column(name="companyname")
+	@NotBlank
 	private String name;
 	@Column(name="contactname")
 	private String contactName;

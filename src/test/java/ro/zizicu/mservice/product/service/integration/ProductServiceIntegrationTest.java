@@ -1,6 +1,6 @@
 package ro.zizicu.mservice.product.service.integration;
 
-import static org.junit.Assert.assertFalse;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;

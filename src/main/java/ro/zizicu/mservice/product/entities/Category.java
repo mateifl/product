@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
@@ -17,6 +18,7 @@ import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 @Table(name = "Categories")
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class Category implements NamedIdentityOwner<Integer> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,40 +31,8 @@ public class Category implements NamedIdentityOwner<Integer> {
 	@NotEmpty(message="description is mandatory")
 	private String description;
 	@NotEmpty(message="picture path is mandatory")
-	@Size(min=1, max=50, message = "picture path must be between 1 and 50 characters long")
+	@Size(min=1, max=120, message = "picture path must be between 1 and 50 characters long")
 	private String picture;
-
-	@Override
-	public Integer getId() {
-		return id;
-	}
-	
-	@Override
-	public void setId(Integer categoryId) {
-		this.id = categoryId;
-	}
-	
-	@Override
-	public String getName() {
-		return name;
-	}
-	
-	@Override
-	public void setName(String categoryName) {
-		this.name = categoryName;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getPicture() {
-		return picture;
-	}
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
 
 	@Override
 	public String getEntityName() {

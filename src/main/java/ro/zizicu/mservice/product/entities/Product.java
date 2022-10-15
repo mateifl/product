@@ -13,10 +13,12 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Data;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity
 @Table(name = "Products")
+@Data
 public class Product implements NamedIdentityOwner<Integer> {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,71 +48,7 @@ public class Product implements NamedIdentityOwner<Integer> {
 	@JoinColumn(name="categoryid")
 	@JsonIgnore
 	private Category category;
-	@Override
-	public Integer getId() {
-		return id;
-	}
-	@Override
-	public void setId(Integer productId) {
-		this.id = productId;
-	}
-	@Override
-	public String getName() {
-		return name;
-	}
-	@Override
-	public void setName(String productName) {
-		this.name = productName;
-	}
-	public String getQuantityPerUnit() {
-		return quantityPerUnit;
-	}
-	public void setQuantityPerUnit(String quantityPerUnit) {
-		this.quantityPerUnit = quantityPerUnit;
-	}
-	public Double getUnitPrice() {
-		return unitPrice;
-	}
-	public void setUnitPrice(Double unitPrice) {
-		this.unitPrice = unitPrice;
-	}
-	public Integer getUnitsInStock() {
-		return unitsInStock;
-	}
-	public void setUnitsInStock(Integer unitsInStock) {
-		this.unitsInStock = unitsInStock;
-	}
-	public Integer getUnitsOnOrder() {
-		return unitsOnOrder;
-	}
-	public void setUnitsOnOrder(Integer unitsInOrder) {
-		this.unitsOnOrder = unitsInOrder;
-	}
-	public Integer getReorderLevel() {
-		return reorderLevel;
-	}
-	public void setReorderLevel(Integer reorderLevel) {
-		this.reorderLevel = reorderLevel;
-	}
-	public Boolean getDiscontinued() {
-		return discontinued;
-	}
-	public void setDiscontinued(Boolean discontinued) {
-		this.discontinued = discontinued;
-	}
-	public Supplier getSupplier() {
-		return supplier;
-	}
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
-	public Category getCategory() {
-		return category;
-	}
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-	
+
 	@Override
 	public String getEntityName() {
 		return "Product";
