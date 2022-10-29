@@ -14,4 +14,5 @@ public interface ProductService extends NamedService<Product, Integer> {
 	/** Execute a full or partial update on the product */
 	Product update(Product p);
 	Optional<List<Product>> find(String name, Integer categoryId, Integer supplierId);
+
 }
