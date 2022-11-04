@@ -2,6 +2,7 @@ package ro.zizicu.mservice.product.data;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import ro.zizicu.mservice.product.entities.Category;
@@ -15,5 +16,6 @@ public interface ProductRepository extends CrudRepository<Product, Integer>, Nam
 	
 	/** */
 	List<Product> findBySupplier(Supplier supplier);
-	
+	@Query(value = "select ", nativeQuery = true)
+	Long getTransactionId();
 }

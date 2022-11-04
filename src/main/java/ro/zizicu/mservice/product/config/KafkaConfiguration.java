@@ -50,7 +50,7 @@ public class KafkaConfiguration {
 	@Bean
 	public KafkaTemplate<String, TransactionMessage> kafkaTemplate()
 	{
-		return new KafkaTemplate<String, TransactionMessage>(producerFactory());
+		return new KafkaTemplate<>(producerFactory());
 	}
 
 

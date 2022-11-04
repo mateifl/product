@@ -23,7 +23,7 @@ public class KafkaIntegrationTest {
     public void testSendTransactionInformation() {
        ListenableFuture<SendResult<String, TransactionMessage>> future = kafkaTemplate.send( "stockUpdateTopic",
                 TransactionMessage.builder().
-                        transactionId(1821).
+                        transactionId(1821L).
                         isLastStep(false).
                         serviceName("Product").build() );
 

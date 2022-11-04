@@ -35,7 +35,7 @@ public class DefaultDistributedTransactionTemplate implements DistributedTransac
             else
                 log.debug("distributed transaction id {}", transactionId);
 
-            kafkaTemplate.send("stockUpdateTopic", TransactionMessage.builder().transactionId(1).build());
+            kafkaTemplate.send("stockUpdateTopic", TransactionMessage.builder().transactionId(1L).build());
         }
         catch(RuntimeException e) {
             log.error(e.getMessage());
