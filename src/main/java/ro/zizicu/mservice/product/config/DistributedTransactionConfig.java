@@ -3,7 +3,7 @@ package ro.zizicu.mservice.product.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ro.zizicu.mservice.product.services.support.DistributedTransaction;
+import ro.zizicu.mservice.product.services.support.TransactionStep;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
 public class DistributedTransactionConfig {
 
     @Bean
-    public Map<Long, DistributedTransaction> distributedTransactionMap() {
+    public Map<Long, TransactionStep> distributedTransactionMap() {
         return new Hashtable<>();
     }
 

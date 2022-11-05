@@ -1,7 +1,6 @@
 package ro.zizicu.mservice.product.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -10,27 +9,28 @@ import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.services.ProductService;
-import ro.zizicu.mservice.product.services.distibuted.transaction.UpdateProductFromOrderTransaction;
-import ro.zizicu.mservice.product.services.support.DistributedTransaction;
+import ro.zizicu.mservice.product.services.distibuted.transaction.DefaultTransactionStepExecutor;
+import ro.zizicu.mservice.product.services.distibuted.transaction.UpdateProductStock;
 import ro.zizicu.mservice.product.services.support.DistributedTransactionStatus;
 import ro.zizicu.nwbase.controller.NamedEntityController;
 
 @RestController
 @RequestMapping(value = "/products")
 @Slf4j
-
-public class ProductController 
+public class ProductController
 	extends NamedEntityController<Product, Integer> {
 
 	private final ProductService productService;
+	private final DefaultTransactionStepExecutor transactionStepExecutor;
+	private final UpdateProductStock updateProductStock;
 
-	private UpdateProductFromOrderTransaction transactionService;
-
-	public final Map<Long, DistributedTransaction> distributedTransactionMap;
-	public ProductController(ProductService productService, Map<Long, DistributedTransaction> distributedTransactionMap) {
+	public ProductController(ProductService productService,
+							 DefaultTransactionStepExecutor transactionStepExecutor,
+							 UpdateProductStock updateProductStock) {
 		super(productService);
 		this.productService = productService;
-		this.distributedTransactionMap = distributedTransactionMap;
+		this.transactionStepExecutor = transactionStepExecutor;
+		this.updateProductStock = updateProductStock;
 	}
 
 	@Override
@@ -51,10 +51,12 @@ public class ProductController
 	}
 
 	@PatchMapping(value="?transactionId={transactionId}")
-	public ResponseEntity<?> updateStock(Product product, Long transactionId) {
-		transactionService.executeOnDatabase(product);
+	public ResponseEntity<?> updateStock(@RequestBody Product product, @RequestParam Long transactionId) {
+		updateProductStock.setProduct(product);
+		updateProductStock.setTransactionId(transactionId);
+		transactionStepExecutor.executeOnDatabase(updateProductStock);
 		try {
-			while (transactionService.getDistributedTransactionStatus() == DistributedTransactionStatus.STARTED)
+			while (updateProductStock.getDistributedTransactionStatus() == DistributedTransactionStatus.STARTED)
 				Thread.sleep(10);
 		}
 		catch(InterruptedException e) {
@@ -62,17 +64,10 @@ public class ProductController
 			return ResponseEntity.ok().body("could not get transaction status");
 		}
 
-		if(transactionService.getDistributedTransactionStatus() == DistributedTransactionStatus.COMMITTED)
+		if(updateProductStock.getDistributedTransactionStatus() == DistributedTransactionStatus.COMMITTED)
 			return ResponseEntity.ok().body(product);
 		else
 			return ResponseEntity.internalServerError().body("update stock transaction failed id = " + transactionId);
-	}
-
-	@PutMapping(value="transaction/")
-	public ResponseEntity<?> finishTransaction(Long transactionId) {
-		distributedTransactionMap.get(transactionId).commit();
-		distributedTransactionMap.remove(transactionId);
-		return ResponseEntity.ok().body("product");
 	}
 
 }

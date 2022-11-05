@@ -19,7 +19,6 @@ import ro.zizicu.mservice.product.entities.*;
 @AllArgsConstructor
 public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 
-
     private final EntityManager em;
 
     @Override
