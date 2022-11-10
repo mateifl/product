@@ -12,9 +12,9 @@ import java.util.Map;
 @Configuration
 public class DistributedTransactionConfig {
 
-    @Bean
-    public Map<Long, TransactionStep> distributedTransactionMap() {
-        return new Hashtable<>();
-    }
+//    @Bean
+//    public Map<Long, TransactionStep> distributedTransactionMap() {
+//        return new Hashtable<>();
+//    }
 
 }

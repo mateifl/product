@@ -38,10 +38,10 @@ public class ProductController
 		return "products";
 	}
 	
-	@GetMapping(value = "?name={name}&categoryId={categoryId}&supplierId={supplierId}")
-	public ResponseEntity<?> find(@RequestParam String name, 
-			@RequestParam Integer categoryId, 
-			@RequestParam Integer supplierId) {
+	@GetMapping(value = "/find")
+	public ResponseEntity<?> find(@RequestParam(required = false) String name,
+			@RequestParam(required = false) Integer categoryId,
+			@RequestParam(required = false) Integer supplierId) {
 		log.debug("filtering products");
 		Optional<List<Product>> products =  productService.find(name, categoryId, supplierId);
 		if(products.isPresent())
@@ -50,14 +50,20 @@ public class ProductController
 			return ResponseEntity.notFound().build();
 	}
 
-	@PatchMapping(value="?transactionId={transactionId}")
+	@PatchMapping(value="/transaction")
 	public ResponseEntity<?> updateStock(@RequestBody Product product, @RequestParam Long transactionId) {
 		updateProductStock.setProduct(product);
 		updateProductStock.setTransactionId(transactionId);
 		transactionStepExecutor.executeOnDatabase(updateProductStock);
+		int counter = 0;
 		try {
-			while (updateProductStock.getDistributedTransactionStatus() == DistributedTransactionStatus.STARTED)
+			while (updateProductStock.getDistributedTransactionStatus() == DistributedTransactionStatus.STARTED) {
 				Thread.sleep(10);
+				counter += 1;
+				if (counter == 100000)
+					break;
+			}
+
 		}
 		catch(InterruptedException e) {
 			log.error(e.getMessage());

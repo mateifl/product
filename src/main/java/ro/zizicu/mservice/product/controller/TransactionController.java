@@ -11,14 +11,14 @@ import ro.zizicu.nwbase.transaction.ExecuteTransactionMessage;
 
 
 @RestController
-@RequestMapping(value = "transaction")
+@RequestMapping(value = "/transaction")
 @Slf4j
 @RequiredArgsConstructor
 public class TransactionController {
 
     private final DefaultTransactionStepExecutor transactionStepExecutor;
 
-    @PostMapping()
+    @PostMapping
     public void executeTransaction(@RequestBody ExecuteTransactionMessage executeTransactionMessage) {
         if( executeTransactionMessage.getTransactionResult().equalsIgnoreCase("COMMIT") )
             transactionStepExecutor.commit(executeTransactionMessage.getTransactionId());

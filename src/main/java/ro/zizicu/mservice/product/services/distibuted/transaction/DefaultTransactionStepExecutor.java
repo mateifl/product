@@ -10,6 +10,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import ro.zizicu.mservice.product.services.support.DistributedTransactionStatus;
 import ro.zizicu.mservice.product.services.support.TransactionStep;
 import ro.zizicu.nwbase.transaction.TransactionMessage;
 
@@ -32,14 +33,14 @@ public class DefaultTransactionStepExecutor  {
         definition.setTimeout(3);
         TransactionStatus status = getTransactionManager().getTransaction(definition);
         transactionStep.setTransactionStatus(status);
+        transactionStep.setDistributedTransactionStatus(DistributedTransactionStatus.STARTED);
         transactionStep.execute();
         getDistributedTransactionMap().put(transactionStep.getTransactionId(), transactionStep);
         log.debug("sending transaction message {}", transactionStep.getTransactionId());
-        getKafkaTemplate().send("", TransactionMessage.builder()
+        getKafkaTemplate().send("stockUpdateTopic", TransactionMessage.builder()
                 .transactionId(transactionStep.getTransactionId())
                 .serviceName(transactionStep.getServiceName())
                 .build());
-
     }
 
     public void commit(Long transactionId) {
