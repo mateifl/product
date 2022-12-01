@@ -3,13 +3,10 @@ package ro.zizicu.mservice.product.services.distibuted.transaction;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.TransactionStatus;
 import ro.zizicu.mservice.product.data.ProductRepository;
 import ro.zizicu.mservice.product.entities.Product;
-import ro.zizicu.mservice.product.services.support.DistributedTransactionStatus;
 import ro.zizicu.mservice.product.services.support.TransactionStep;
 
 
@@ -17,21 +14,15 @@ import ro.zizicu.mservice.product.services.support.TransactionStep;
 @RequiredArgsConstructor
 @Data
 @Component
-@Scope("prototype")
+@Scope("request")
 public class UpdateProductStock implements TransactionStep {
     private final ProductRepository productRepository;
     private Product product;
-    private Long transactionId;
-    private DistributedTransactionStatus distributedTransactionStatus;
-    private TransactionStatus transactionStatus;
-    private final static String serviceName = "product";
     @Override
     public void execute() {
+        log.debug("save product {}", product);
         productRepository.save(product);
+        log.debug("product saved");
     }
 
-    @Override
-    public String getServiceName() {
-        return serviceName;
-    }
 }

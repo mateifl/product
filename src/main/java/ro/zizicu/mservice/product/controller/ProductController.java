@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.client.RestTemplate;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.services.ProductService;
+import ro.zizicu.mservice.product.services.RestClient;
 import ro.zizicu.mservice.product.services.distibuted.transaction.DefaultTransactionStepExecutor;
 import ro.zizicu.mservice.product.services.distibuted.transaction.UpdateProductStock;
 import ro.zizicu.mservice.product.services.support.DistributedTransactionStatus;
@@ -23,14 +26,16 @@ public class ProductController
 	private final ProductService productService;
 	private final DefaultTransactionStepExecutor transactionStepExecutor;
 	private final UpdateProductStock updateProductStock;
-
+	private final RestClient restClient;
 	public ProductController(ProductService productService,
 							 DefaultTransactionStepExecutor transactionStepExecutor,
-							 UpdateProductStock updateProductStock) {
+							 UpdateProductStock updateProductStock,
+							 RestClient restClient) {
 		super(productService);
 		this.productService = productService;
 		this.transactionStepExecutor = transactionStepExecutor;
 		this.updateProductStock = updateProductStock;
+		this.restClient = restClient;
 	}
 
 	@Override
@@ -50,14 +55,14 @@ public class ProductController
 			return ResponseEntity.notFound().build();
 	}
 
-	@PatchMapping(value="/transaction")
+	@PatchMapping(value="/update-stock")
 	public ResponseEntity<?> updateStock(@RequestBody Product product, @RequestParam Long transactionId) {
 		updateProductStock.setProduct(product);
-		updateProductStock.setTransactionId(transactionId);
-		transactionStepExecutor.executeOnDatabase(updateProductStock);
+		transactionStepExecutor.executeOnDatabase(updateProductStock, transactionId);
 		int counter = 0;
 		try {
-			while (updateProductStock.getDistributedTransactionStatus() == DistributedTransactionStatus.STARTED) {
+			while (restClient.getDistributedTransactionStatus(transactionId).getStatus() != null) {
+
 				Thread.sleep(10);
 				counter += 1;
 				if (counter == 100000)
@@ -70,10 +75,8 @@ public class ProductController
 			return ResponseEntity.ok().body("could not get transaction status");
 		}
 
-		if(updateProductStock.getDistributedTransactionStatus() == DistributedTransactionStatus.COMMITTED)
+
 			return ResponseEntity.ok().body(product);
-		else
-			return ResponseEntity.internalServerError().body("update stock transaction failed id = " + transactionId);
 	}
 
 }

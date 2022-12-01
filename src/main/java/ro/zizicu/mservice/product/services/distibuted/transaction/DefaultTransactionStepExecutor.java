@@ -3,6 +3,7 @@ package ro.zizicu.mservice.product.services.distibuted.transaction;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Scope;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -20,40 +21,30 @@ import java.util.Map;
 @Data
 @Slf4j
 @Service
+@Scope(scopeName = "request")
 public class DefaultTransactionStepExecutor  {
 
     private final PlatformTransactionManager transactionManager;
-    private final KafkaTemplate<String, TransactionMessage> kafkaTemplate;
-    private final Map<Long, TransactionStep> distributedTransactionMap;
+    private TransactionStatus transactionStatus;
 
-    public void executeOnDatabase(TransactionStep transactionStep) {
-        log.debug("executing transaction {}", transactionStep.getTransactionId());
+    public void executeOnDatabase(TransactionStep transactionStep, Long transactionId) {
+        log.debug("executing transaction {}", transactionId);
         DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
         definition.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
         definition.setTimeout(3);
-        TransactionStatus status = getTransactionManager().getTransaction(definition);
-        transactionStep.setTransactionStatus(status);
-        transactionStep.setDistributedTransactionStatus(DistributedTransactionStatus.STARTED);
+        transactionStatus = getTransactionManager().getTransaction(definition);
         transactionStep.execute();
-        getDistributedTransactionMap().put(transactionStep.getTransactionId(), transactionStep);
-        log.debug("sending transaction message {}", transactionStep.getTransactionId());
-        getKafkaTemplate().send("stockUpdateTopic", TransactionMessage.builder()
-                .transactionId(transactionStep.getTransactionId())
-                .serviceName(transactionStep.getServiceName())
-                .build());
     }
 
     public void commit(Long transactionId) {
         log.debug("committing transaction {}", transactionId);
-        transactionManager.commit(distributedTransactionMap.get(transactionId).getTransactionStatus());
-        distributedTransactionMap.remove(transactionId);
+        transactionManager.commit(transactionStatus);
         log.debug("transaction {} committed", transactionId);
     }
 
     public void rollback(Long transactionId) {
         log.debug("rollback transaction {}", transactionId);
-        transactionManager.rollback(distributedTransactionMap.get(transactionId).getTransactionStatus());
-        distributedTransactionMap.remove(transactionId);
+        transactionManager.rollback(transactionStatus);
         log.debug("transaction {} rolled back", transactionId);
     }
 
