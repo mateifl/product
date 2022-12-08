@@ -1,30 +1,27 @@
 package ro.zizicu.mservice.product.services.distibuted.transaction;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Scope;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
-
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import ro.zizicu.mservice.product.services.support.DistributedTransactionStatus;
-import ro.zizicu.mservice.product.services.support.TransactionStep;
-import ro.zizicu.nwbase.transaction.TransactionMessage;
+import org.springframework.web.context.annotation.RequestScope;
 
-import java.util.Map;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import ro.zizicu.mservice.product.services.RestClient;
+import ro.zizicu.mservice.product.services.support.TransactionStep;
 
 @RequiredArgsConstructor
 @Data
 @Slf4j
 @Service
-@Scope(scopeName = "request")
+@RequestScope
 public class DefaultTransactionStepExecutor  {
 
     private final PlatformTransactionManager transactionManager;
+    private final RestClient restClient;
     private TransactionStatus transactionStatus;
 
     public void executeOnDatabase(TransactionStep transactionStep, Long transactionId) {
@@ -34,6 +31,8 @@ public class DefaultTransactionStepExecutor  {
         definition.setTimeout(3);
         transactionStatus = getTransactionManager().getTransaction(definition);
         transactionStep.execute();
+        restClient.sendTransactionStepStatus(transactionId, ro.zizicu.nwbase.transaction.TransactionStatus.READY_TO_COMMIT);
+        log.debug("transaction step {} executed", transactionId);
     }
 
     public void commit(Long transactionId) {

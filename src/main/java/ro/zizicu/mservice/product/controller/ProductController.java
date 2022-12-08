@@ -4,17 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.client.RestTemplate;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.services.ProductService;
 import ro.zizicu.mservice.product.services.RestClient;
 import ro.zizicu.mservice.product.services.distibuted.transaction.DefaultTransactionStepExecutor;
 import ro.zizicu.mservice.product.services.distibuted.transaction.UpdateProductStock;
-import ro.zizicu.mservice.product.services.support.DistributedTransactionStatus;
 import ro.zizicu.nwbase.controller.NamedEntityController;
 
 @RestController
@@ -55,17 +52,17 @@ public class ProductController
 			return ResponseEntity.notFound().build();
 	}
 
-	@PatchMapping(value="/update-stock")
-	public ResponseEntity<?> updateStock(@RequestBody Product product, @RequestParam Long transactionId) {
+	@PatchMapping(value="/update-stock/{transactionId}")
+	public ResponseEntity<?> updateStock(@RequestBody Product product, @PathVariable Long transactionId) {
+		log.debug("transaction id {}", transactionId);
 		updateProductStock.setProduct(product);
 		transactionStepExecutor.executeOnDatabase(updateProductStock, transactionId);
 		int counter = 0;
 		try {
 			while (restClient.getDistributedTransactionStatus(transactionId).getStatus() != null) {
-
 				Thread.sleep(10);
 				counter += 1;
-				if (counter == 100000)
+				if (counter == 1000)
 					break;
 			}
 
@@ -74,9 +71,7 @@ public class ProductController
 			log.error(e.getMessage());
 			return ResponseEntity.ok().body("could not get transaction status");
 		}
-
-
-			return ResponseEntity.ok().body(product);
+		return ResponseEntity.ok().body(product);
 	}
 
 }
