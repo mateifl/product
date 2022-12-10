@@ -34,7 +34,7 @@ public class TransactionCoordinatorRestClient implements RestClient {
         HttpEntity<TransactionMessage> updatedEntity = new HttpEntity<TransactionMessage>(transactionMessage);
         restTemplate.postForObject(transactionCoordinatorUrl + "/",
                 updatedEntity,
-                TransactionStatus.class);
+                TransactionStatusMessage.class);
     }
 
     @Override

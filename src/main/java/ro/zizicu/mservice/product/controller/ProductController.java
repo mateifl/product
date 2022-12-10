@@ -13,6 +13,7 @@ import ro.zizicu.mservice.product.services.RestClient;
 import ro.zizicu.mservice.product.services.distibuted.transaction.DefaultTransactionStepExecutor;
 import ro.zizicu.mservice.product.services.distibuted.transaction.UpdateProductStock;
 import ro.zizicu.nwbase.controller.NamedEntityController;
+import ro.zizicu.nwbase.transaction.TransactionStatus;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -59,11 +60,29 @@ public class ProductController
 		transactionStepExecutor.executeOnDatabase(updateProductStock, transactionId);
 		int counter = 0;
 		try {
-			while (restClient.getDistributedTransactionStatus(transactionId).getStatus() != null) {
+			while (true) {
 				Thread.sleep(10);
+				if(counter % 100 == 0)
+					log.debug("checking transaction status {}", transactionId);
+				TransactionStatus transactionStatus = restClient.getDistributedTransactionStatus(transactionId).getStatus();
+				
+				if(transactionStatus == TransactionStatus.READY_TO_COMMIT) {
+					log.debug("transaction ready to commit");
+					transactionStepExecutor.commit(transactionId);
+					break;
+				}
+				else if(transactionStatus == TransactionStatus.ROLLEDBACK) {
+					log.debug("transaction ready to rollback");
+					transactionStepExecutor.rollback(transactionId);
+					break;
+				}
 				counter += 1;
 				if (counter == 1000)
+				{
+					log.debug("end polling, transaction rollback");
+					transactionStepExecutor.rollback(transactionId);
 					break;
+				}
 			}
 
 		}

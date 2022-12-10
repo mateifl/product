@@ -1,5 +1,7 @@
 package ro.zizicu.mservice.product.services.distibuted.transaction;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -7,6 +9,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ro.zizicu.mservice.product.data.ProductRepository;
+import ro.zizicu.mservice.product.data.exceptions.ProductNotFound;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.services.support.TransactionStep;
 
@@ -22,8 +25,12 @@ public class UpdateProductStock implements TransactionStep {
     
     @Override
     public void execute() {
-        log.debug("save product {}", product);
-        productRepository.save(product);
+    	Optional<Product> fromDatabase = productRepository.findById(product.getId());
+    	if(fromDatabase.isEmpty()) 
+    		throw new ProductNotFound();
+    	fromDatabase.get().setUnitsInStock(product.getUnitsInStock());
+        log.debug("save product {}", fromDatabase.get());
+        productRepository.save(fromDatabase.get());
         log.debug("product saved");
     }
 
