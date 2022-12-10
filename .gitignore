@@ -1,5 +1,5 @@
 /target/*
-product.log
+product*.log
 .settings
 .sts4-cache
 .vscode
