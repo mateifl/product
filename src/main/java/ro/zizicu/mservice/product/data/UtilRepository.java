@@ -29,7 +29,4 @@ public class UtilRepository  {
         log.debug("transaction id = {}", transactionId);
         return transactionId;
     }
-
-
-
 }

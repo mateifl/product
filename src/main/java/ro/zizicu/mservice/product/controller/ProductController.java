@@ -4,15 +4,21 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.services.ProductService;
-import ro.zizicu.mservice.product.services.RestClient;
 import ro.zizicu.mservice.product.services.distibuted.transaction.DefaultTransactionStepExecutor;
 import ro.zizicu.mservice.product.services.distibuted.transaction.UpdateProductStock;
 import ro.zizicu.nwbase.controller.NamedEntityController;
+import ro.zizicu.nwbase.rest.TransactionCoordinatorRestClient;
 import ro.zizicu.nwbase.transaction.TransactionStatus;
 
 @RestController
@@ -24,11 +30,12 @@ public class ProductController
 	private final ProductService productService;
 	private final DefaultTransactionStepExecutor transactionStepExecutor;
 	private final UpdateProductStock updateProductStock;
-	private final RestClient restClient;
+	private final TransactionCoordinatorRestClient restClient;
+	
 	public ProductController(ProductService productService,
 							 DefaultTransactionStepExecutor transactionStepExecutor,
 							 UpdateProductStock updateProductStock,
-							 RestClient restClient) {
+							 TransactionCoordinatorRestClient restClient) {
 		super(productService);
 		this.productService = productService;
 		this.transactionStepExecutor = transactionStepExecutor;
@@ -58,6 +65,23 @@ public class ProductController
 		log.debug("transaction id {}", transactionId);
 		updateProductStock.setProduct(product);
 		transactionStepExecutor.executeOnDatabase(updateProductStock, transactionId);
+		TransactionStatus transactionStatus = checkTransactionStatus(transactionId);
+		if(transactionStatus == TransactionStatus.READY_TO_COMMIT)
+		{
+            log.debug("transaction ready to commit");
+            transactionStepExecutor.commit(transactionId);
+            ResponseEntity.ok().body("transaction commited " + transactionId);
+		}
+		if(transactionStatus == TransactionStatus.ROLLEDBACK)
+		{
+            log.debug("transaction ready to rollback");
+            ResponseEntity.status(500).body("transaction rolledback " + transactionId);
+		}
+		
+		return ResponseEntity.ok().body(product);
+	}
+
+	private TransactionStatus checkTransactionStatus(Long transactionId) {
 		int counter = 0;
 		try {
 			while (true) {
@@ -66,31 +90,23 @@ public class ProductController
 					log.debug("checking transaction status {}", transactionId);
 				TransactionStatus transactionStatus = restClient.getDistributedTransactionStatus(transactionId).getStatus();
 				
-				if(transactionStatus == TransactionStatus.READY_TO_COMMIT) {
-					log.debug("transaction ready to commit");
-					transactionStepExecutor.commit(transactionId);
-					break;
-				}
-				else if(transactionStatus == TransactionStatus.ROLLEDBACK) {
-					log.debug("transaction ready to rollback");
-					transactionStepExecutor.rollback(transactionId);
-					break;
+				if(transactionStatus == TransactionStatus.READY_TO_COMMIT || transactionStatus == TransactionStatus.ROLLEDBACK) {
+					return transactionStatus;
 				}
 				counter += 1;
 				if (counter == 1000)
 				{
 					log.debug("end polling, transaction rollback");
-					transactionStepExecutor.rollback(transactionId);
-					break;
+					return TransactionStatus.ROLLEDBACK;
 				}
 			}
 
 		}
 		catch(InterruptedException e) {
 			log.error(e.getMessage());
-			return ResponseEntity.ok().body("could not get transaction status");
+			return TransactionStatus.ROLLEDBACK;
 		}
-		return ResponseEntity.ok().body(product);
+		
 	}
-
+	
 }

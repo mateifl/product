@@ -10,8 +10,8 @@ import org.springframework.web.context.annotation.RequestScope;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ro.zizicu.mservice.product.services.RestClient;
 import ro.zizicu.mservice.product.services.support.TransactionStep;
+import ro.zizicu.nwbase.rest.TransactionCoordinatorRestClient;
 
 @RequiredArgsConstructor
 @Data
@@ -21,7 +21,7 @@ import ro.zizicu.mservice.product.services.support.TransactionStep;
 public class DefaultTransactionStepExecutor  {
 
     private final PlatformTransactionManager transactionManager;
-    private final RestClient restClient;
+    private final TransactionCoordinatorRestClient restClient;
     private TransactionStatus transactionStatus;
 
     public void executeOnDatabase(TransactionStep transactionStep, Long transactionId) {
