@@ -30,7 +30,7 @@ public class ProductController
 
 	private final ProductService productService;
 	private final DistributedTransactionService distributedTransactionService;
-	private final UpdateProductStock updateProductStock;
+	private UpdateProductStock updateProductStock;
 	
 	public ProductController(ProductService productService,
 							 DistributedTransactionService distributedTransactionService,

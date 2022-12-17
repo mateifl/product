@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -34,4 +35,11 @@ public class UpdateProductStock implements TransactionStep {
         log.debug("product saved");
     }
 
+	@Override
+	public Boolean lastStep() {
+		return false;
+	}
+
+    
+    
 }
