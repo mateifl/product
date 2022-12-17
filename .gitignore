@@ -11,3 +11,5 @@ product*.log
 /.apt_generated_tests/
 /product.iml
 /.factorypath
+/product.log.2022-12-12.0.gz
+/product.log.2022-12-13.0.gz
