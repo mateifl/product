@@ -5,18 +5,18 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ro.zizicu.mservice.product.data.ProductRepository;
 import ro.zizicu.mservice.product.data.exceptions.ProductNotFound;
 import ro.zizicu.mservice.product.entities.Product;
-import ro.zizicu.mservice.product.services.support.TransactionStep;
+import ro.zizicu.nwbase.transaction.support.TransactionStep;
 
 
 @Slf4j
 @RequiredArgsConstructor
-@Data
+@Setter
 @Component
 @RequestScope
 public class UpdateProductStock implements TransactionStep {
