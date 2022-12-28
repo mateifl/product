@@ -5,14 +5,21 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ro.zizicu.mservice.product.data.ProductRepositoryCustom;
-import ro.zizicu.mservice.product.entities.*;
+import ro.zizicu.mservice.product.entities.Category;
+import ro.zizicu.mservice.product.entities.Product;
+import ro.zizicu.mservice.product.entities.Product_;
+import ro.zizicu.mservice.product.entities.Supplier;
 
 @Repository
 @Slf4j

@@ -19,8 +19,6 @@ import ro.zizicu.mservice.product.services.distibuted.transaction.UpdateProductS
 import ro.zizicu.nwbase.controller.NamedEntityController;
 import ro.zizicu.nwbase.rest.TransactionCoordinatorRestClient;
 import ro.zizicu.nwbase.service.DistributedTransactionService;
-import ro.zizicu.nwbase.transaction.DistributedTransactionStatus;
-import ro.zizicu.nwbase.transaction.support.DefaultTransactionStepExecutor;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -30,17 +28,13 @@ public class ProductController
 
 	private final ProductService productService;
 	private final DistributedTransactionService distributedTransactionService;
-	private UpdateProductStock updateProductStock;
 	
 	public ProductController(ProductService productService,
 							 DistributedTransactionService distributedTransactionService,
-							 UpdateProductStock updateProductStock,
 							 TransactionCoordinatorRestClient restClient) {
 		super(productService);
 		this.productService = productService;
 		this.distributedTransactionService = distributedTransactionService;
-		this.updateProductStock = updateProductStock;
-
 	}
 
 	@Override
@@ -62,7 +56,8 @@ public class ProductController
 
 	@PatchMapping(value="/update-stock/{transactionId}")
 	public ResponseEntity<?> updateStock(@RequestBody Product product, @PathVariable Long transactionId) {
-		log.debug("transaction id {} service object {}", transactionId, updateProductStock);
+		log.debug("transaction id {}", transactionId);
+		UpdateProductStock updateProductStock = new UpdateProductStock();
 		updateProductStock.setProduct(product);
 		distributedTransactionService.executeTransactionStep(updateProductStock, transactionId);
 		return ResponseEntity.ok().body(product);

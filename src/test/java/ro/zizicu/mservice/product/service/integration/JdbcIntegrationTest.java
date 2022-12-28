@@ -1,12 +1,13 @@
 package ro.zizicu.mservice.product.service.integration;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ro.zizicu.mservice.product.data.UtilRepository;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import lombok.extern.slf4j.Slf4j;
+import ro.zizicu.mservice.product.data.UtilRepository;
 
 @SpringBootTest
 @Slf4j

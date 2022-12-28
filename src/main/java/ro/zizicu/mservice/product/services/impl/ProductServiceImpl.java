@@ -3,11 +3,11 @@ package ro.zizicu.mservice.product.services.impl;
 import java.util.List;
 import java.util.Optional;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ro.zizicu.mservice.product.data.CategoryRepository;
 import ro.zizicu.mservice.product.data.ProductRepository;
 import ro.zizicu.mservice.product.data.SupplierRepository;
