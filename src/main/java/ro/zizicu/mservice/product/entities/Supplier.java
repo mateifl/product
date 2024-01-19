@@ -1,15 +1,19 @@
 package ro.zizicu.mservice.product.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
+import lombok.Getter;
+import lombok.Setter;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity
 @Table(name = "Suppliers")
+@Getter
+@Setter
 public class Supplier implements NamedIdentityOwner<Integer> {
 	
 	@Id
@@ -33,87 +37,9 @@ public class Supplier implements NamedIdentityOwner<Integer> {
 	@Column(name="homepage")
 	private String homePage;
 
-	public Integer getId() {
-		return id;
-	}
-	public void setSupplierId(Integer supplierId) {
-		this.id = supplierId;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String companyName) {
-		this.name = companyName;
-	}
-	public String getContactName() {
-		return contactName;
-	}
-	public void setContactName(String contactName) {
-		this.contactName = contactName;
-	}
-	public String getContactTitle() {
-		return contactTitle;
-	}
-	public void setContactTitle(String contactTitle) {
-		this.contactTitle = contactTitle;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public String getRegion() {
-		return region;
-	}
-	public void setRegion(String region) {
-		this.region = region;
-	}
-	public String getPostalCode() {
-		return postalCode;
-	}
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public String getFax() {
-		return fax;
-	}
-	public void setFax(String fax) {
-		this.fax = fax;
-	}
-	public String getHomePage() {
-		return homePage;
-	}
-	public void setHomePage(String homePage) {
-		this.homePage = homePage;
-	}
-	
 	@Override
 	public String getEntityName() {
 		return "Supplier";
 	}
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
-	
+
 }
