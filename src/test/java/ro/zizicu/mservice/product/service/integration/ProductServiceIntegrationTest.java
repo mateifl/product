@@ -77,14 +77,14 @@ public class ProductServiceIntegrationTest {
 	
 	@Test
 	void filterProductTestByName() {
-		Optional<List<Product>> optionalProductList = productService.find("Gu%", null, null);
+		Optional<List<Product>> optionalProductList = productService.find("%HH%", null, null);
 		Assertions.assertFalse(optionalProductList.isEmpty());
 		Assertions.assertFalse(optionalProductList.get().isEmpty());
 	}
 	
 	@Test
 	void filterProductTestByNameAndCategory() {
-		Optional<List<Product>> optionalProductList = productService.find("Ch%", 1, null);
+		Optional<List<Product>> optionalProductList = productService.find("%HH%", 1, null);
 		Assertions.assertFalse(optionalProductList.isEmpty());
 		Assertions.assertFalse(optionalProductList.get().isEmpty());
 	}

@@ -11,7 +11,7 @@ import lombok.Setter;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity
-@Table(name = "Suppliers")
+@Table(name = "Supplier")
 @Getter
 @Setter
 public class Supplier implements NamedIdentityOwner<Integer> {
@@ -24,18 +24,12 @@ public class Supplier implements NamedIdentityOwner<Integer> {
 	private String name;
 	@Column(name="contactname")
 	private String contactName;
-	@Column(name="contacttitle")
-	private String contactTitle;
 	private String address;
 	private String city;
-	private String region;
 	@Column(name="postalcode")
 	private String postalCode;
 	private String country;
 	private String phone;
-	private String fax;
-	@Column(name="homepage")
-	private String homePage;
 
 	@Override
 	public String getEntityName() {

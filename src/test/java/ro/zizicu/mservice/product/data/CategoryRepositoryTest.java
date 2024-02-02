@@ -19,7 +19,6 @@ public class CategoryRepositoryTest {
 		Category c = new Category();
 		c.setName("Test1");
 		c.setDescription("Category description");
-		c.setPicture("Picture test1");
 		repository.save(c);
 		Assertions.assertNotNull(c.getId(), "save category");
 		repository.delete(c);

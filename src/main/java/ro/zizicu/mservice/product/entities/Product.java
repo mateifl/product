@@ -17,7 +17,7 @@ import lombok.Data;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity
-@Table(name = "Products")
+@Table(name = "Product")
 @Data
 public class Product implements NamedIdentityOwner<Integer> {
 	@Id 

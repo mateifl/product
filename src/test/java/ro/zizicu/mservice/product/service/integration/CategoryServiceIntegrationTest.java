@@ -24,7 +24,7 @@ public class CategoryServiceIntegrationTest {
 
     @Test
     void testSaveCategorySuccess() {
-        IdentityOwner<Integer> e =  categoryService.create(new Category(null, "TestC", "testCD", "xxxxx"));
+        IdentityOwner<Integer> e =  categoryService.create(new Category(null, "TestC", "testCD"));
         assertNotNull(e);
         categoryService.delete((Category)e);
     }

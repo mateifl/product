@@ -22,8 +22,6 @@ public class CategoryServiceImpl extends NamedServiceImpl<Category, Integer>
 			fromDatabase.setName(category.getName());
 		if(category.getDescription() != null)
 			fromDatabase.setDescription(category.getDescription());
-		if(category.getPicture() != null)
-			fromDatabase.setPicture(category.getPicture());
 		fromDatabase = repository.save(fromDatabase);
 		return fromDatabase;
 	}
