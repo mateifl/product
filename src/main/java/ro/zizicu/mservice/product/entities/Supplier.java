@@ -17,16 +17,18 @@ import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 public class Supplier implements NamedIdentityOwner<Integer> {
 	
 	@Id
-	@Column(name="supplierid")
+	@Column(name="supplier_id")
 	private Integer id;
-	@Column(name="companyname")
+	@Column(name="company_name")
 	@NotBlank
 	private String name;
-	@Column(name="contactname")
+	@Column(name="contact_name")
 	private String contactName;
+	@NotBlank
 	private String address;
+	@NotBlank
 	private String city;
-	@Column(name="postalcode")
+	@Column(name="postal_code")
 	private String postalCode;
 	private String country;
 	private String phone;

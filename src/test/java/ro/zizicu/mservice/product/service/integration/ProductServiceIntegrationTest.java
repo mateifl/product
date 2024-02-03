@@ -65,14 +65,18 @@ public class ProductServiceIntegrationTest {
 	
 	@Test
 	void createProductTestNoCategory() {
-		Product product = new Product();
-		product.setName("Test Integration Should fail");
-		product.setDiscontinued(false);
-		log.debug("load supplier with id {}", 1);
-		Supplier s = supplierRepository.findById(1).get();
-		Product created = productService.create(product, null, s);
-		assertNotNull(created);
-		productService.delete(created);
+		try {
+			Product product = new Product();
+			product.setName("Test Integration Should fail");
+			product.setDiscontinued(false);
+			log.debug("load supplier with id {}", 1);
+			Supplier s = supplierRepository.findById(1).get();
+			Product created = productService.create(product, null, s);
+			fail("product creation should fail");
+		} catch (Exception e ) {
+			log.info("passed");
+			assertTrue(true);
+		}
 	}
 	
 	@Test

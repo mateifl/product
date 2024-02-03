@@ -17,9 +17,9 @@ import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 public class Category implements NamedIdentityOwner<Integer> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "categoryid")
+	@Column(name = "category_id")
 	private Integer id;
-	@Column(name = "categoryname")
+	@Column(name = "category_name")
 	@NotEmpty(message="category name is mandatory")
 	@Size(min=1, max=15, message = "category name must be between 1 and 15 characters long")
 	private String name;
