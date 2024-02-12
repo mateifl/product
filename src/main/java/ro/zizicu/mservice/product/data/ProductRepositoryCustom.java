@@ -8,5 +8,5 @@ import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
 
 public interface ProductRepositoryCustom {
-	Optional<List<Product>> find(String name, Optional<Category> category, Optional<Supplier> supplier);
+	List<Product> find(String name, Optional<Category> category, Optional<Supplier> supplier);
 }

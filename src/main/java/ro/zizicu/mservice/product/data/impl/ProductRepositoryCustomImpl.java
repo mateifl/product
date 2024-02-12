@@ -22,7 +22,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
     private final EntityManager em;
 
     @Override
-    public Optional<List<Product>> find(String name, Optional<Category> category, Optional<Supplier> supplier) {
+    public List<Product> find(String name, Optional<Category> category, Optional<Supplier> supplier) {
         log.debug("filter products ");
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         // this sets the desired result type (in this case Product)
@@ -48,7 +48,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
         criteriaQuery.select(root).where(predicate);
         TypedQuery<Product> typedQuery = em.createQuery(criteriaQuery);
         log.debug("executing query");
-        return Optional.of(typedQuery.getResultList());
+        return typedQuery.getResultList();
     }
 
 }

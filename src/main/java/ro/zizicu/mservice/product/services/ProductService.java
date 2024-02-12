@@ -1,18 +1,25 @@
 package ro.zizicu.mservice.product.services;
 
 import java.util.List;
-import java.util.Optional;
 
-import ro.zizicu.mservice.product.entities.Category;
+import ro.zizicu.mservice.product.data.ProductRepository;
+import ro.zizicu.mservice.product.dto.ProductDto;
+import ro.zizicu.mservice.product.dto.ProductDtoConverter;
 import ro.zizicu.mservice.product.entities.Product;
-import ro.zizicu.mservice.product.entities.Supplier;
+import ro.zizicu.nwbase.service.LoaderService;
 import ro.zizicu.nwbase.service.NamedService;
+import ro.zizicu.nwbase.service.impl.DefaultLoaderService;
 
-public interface ProductService extends NamedService<Product, Integer> {
-	Product create(Product product, Category category, Supplier supplier);
-	void discontinueProduct(Product product);
+public interface ProductService extends LoaderService<ProductRepository,
+													  ProductDtoConverter,
+													  Product,
+													  ProductDto,
+													  Integer> {
+
 	/** Execute a full or partial update on the product */
-	Product update(Product p);
-	Optional<List<Product>> find(String name, Integer categoryId, Integer supplierId);
+	ProductDto update(ProductDto p);
 
+	List<ProductDto> find(String name, Integer categoryId, Integer supplierId);
+
+	ProductDto create(ProductDto productDto);
 }

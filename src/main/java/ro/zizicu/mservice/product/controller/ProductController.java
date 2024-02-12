@@ -1,8 +1,8 @@
 package ro.zizicu.mservice.product.controller;
 
 import java.util.List;
-import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,35 +12,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
+import ro.zizicu.mservice.product.dto.ProductDto;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.services.ProductService;
-import ro.zizicu.nwbase.controller.NamedEntityController;
-
 
 @RestController
 @RequestMapping(value = "/products")
 @Slf4j
-public class ProductController
-	extends NamedEntityController<Product, Integer> {
+@RequiredArgsConstructor
+public class ProductController{
 
 	private final ProductService productService;
-
-	
-	public ProductController(ProductService productService) {
-        super(productService);
-        this.productService = productService;
-	}
 
 	@GetMapping(value = "/find")
 	public ResponseEntity<?> find(@RequestParam(required = false) String name,
 			@RequestParam(required = false) Integer categoryId,
 			@RequestParam(required = false) Integer supplierId) {
 		log.debug("filtering products");
-		Optional<List<Product>> products =  productService.find(name, categoryId, supplierId);
-		if(products.isPresent())
-			return ResponseEntity.ok().body(products);
-		else
-			return ResponseEntity.notFound().build();
+		List<ProductDto> products =  productService.find(name, categoryId, supplierId);
+		return ResponseEntity.ok().body(products);
 	}
 
 	@PatchMapping(value="/update-stock/")
@@ -48,6 +38,12 @@ public class ProductController
 
 
 		return ResponseEntity.ok().body(product);
+	}
+
+	public ResponseEntity<?> create(ProductDto productDto) {
+		log.debug("create product");
+		ProductDto createdProductDto = productService.create(productDto);
+		return ResponseEntity.ok().body(createdProductDto);
 	}
 
 }

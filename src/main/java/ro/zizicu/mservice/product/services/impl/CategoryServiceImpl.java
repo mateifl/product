@@ -1,5 +1,6 @@
 package ro.zizicu.mservice.product.services.impl;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +16,7 @@ public class CategoryServiceImpl extends NamedServiceImpl<Category, Integer>
 	@Override
 	@Transactional
 	public Category update(Category category) {
-		Category fromDatabase = repository.findById(category.getId()).orElse(null);
-		if(fromDatabase == null)
-			throw new EntityNotFoundException();
+		Category fromDatabase = repository.findById(category.getId()).orElseThrow();
 		if(category.getName() != null)
 			fromDatabase.setName(category.getName());
 		if(category.getDescription() != null)

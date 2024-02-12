@@ -5,4 +5,6 @@ import ro.zizicu.nwbase.service.NamedService;
 
 public interface CategoryService extends NamedService<Category, Integer> {
 
+    Category update(Category category);
+
 }
