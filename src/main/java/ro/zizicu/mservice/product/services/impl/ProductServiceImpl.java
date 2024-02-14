@@ -19,12 +19,12 @@ import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
 import ro.zizicu.mservice.product.services.ProductService;
-import ro.zizicu.nwbase.service.impl.DefaultLoaderService;
+import ro.zizicu.nwbase.service.impl.DefaultDTOService;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ProductServiceImpl  extends DefaultLoaderService<ProductRepository, ProductDtoConverter, Product, ProductDto, Integer>
+public class ProductServiceImpl  extends DefaultDTOService<ProductRepository, ProductDtoConverter, Product, ProductDto, Integer>
 		implements ProductService {
 
 	private final ProductRepository repository;
