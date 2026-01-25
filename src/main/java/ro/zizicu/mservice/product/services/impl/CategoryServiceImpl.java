@@ -1,12 +1,10 @@
 package ro.zizicu.mservice.product.services.impl;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.services.CategoryService;
-import ro.zizicu.nwbase.exceptions.EntityNotFoundException;
 import ro.zizicu.nwbase.service.impl.NamedServiceImpl;
 
 @Service
