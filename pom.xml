@@ -10,7 +10,7 @@
 	<groupId>ro.zizicu.mservice</groupId>
 	<artifactId>product</artifactId>
 	<version>0.0.1</version>
-	<name>demo</name>
+	<name>product-demo-postgresql</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>21</java.version>

@@ -11,7 +11,7 @@ import lombok.Setter;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity
-@Table(name = "Supplier")
+@Table(name = "suppliers")
 @Getter
 @Setter
 public class Supplier implements NamedIdentityOwner<Integer> {

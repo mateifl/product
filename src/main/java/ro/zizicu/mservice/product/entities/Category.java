@@ -10,13 +10,18 @@ import lombok.NoArgsConstructor;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity
-@Table(name = "Category")
+@Table(name = "categories")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Category implements NamedIdentityOwner<Integer> {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq")
+	@SequenceGenerator(
+			name = "category_seq",
+			sequenceName = "sq_categories",  // actual sequence name in DB
+			allocationSize = 1
+	)
 	@Column(name = "category_id")
 	private Integer id;
 	@Column(name = "category_name")
