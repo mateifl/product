@@ -32,9 +32,4 @@ public class ProductDto implements NamedIdentityOwner<Integer> {
         return this;
     }
 
-    public Product toEntity() {
-        Product product = new Product();
-        BeanUtils.copyProperties(product, this);
-        return product;
-    }
 }

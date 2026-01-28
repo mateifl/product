@@ -53,6 +53,7 @@ public class ProductServiceIntegrationTest {
 			product.setCategoryId(1);
 			product.setSupplierId(1);
 			created = productService.create(product);
+			assertNotNull(created, "Product created must not be null");
 
 		}
 		catch(Exception e) {
@@ -83,7 +84,7 @@ public class ProductServiceIntegrationTest {
 	
 	@Test
 	void filterProductTestByNameAndCategory() {
-		List<ProductDto> optionalProductList = productService.find("%Cam%", 1, null);
+		List<ProductDto> optionalProductList = productService.find("%Cam%", 4, null);
 		Assertions.assertFalse(optionalProductList.isEmpty());
 	}
 	
