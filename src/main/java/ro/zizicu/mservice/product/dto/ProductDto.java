@@ -15,7 +15,7 @@ public class ProductDto implements NamedIdentityOwner<Integer> {
     private Float unitPrice;
     private Integer unitsInStock;
     private Integer unitsOnOrder;
-    private Boolean discontinued;
+    private Integer discontinued;
 
     private Integer categoryId;
     private Integer supplierId;

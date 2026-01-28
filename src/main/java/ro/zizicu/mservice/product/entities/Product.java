@@ -1,14 +1,6 @@
 package ro.zizicu.mservice.product.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,8 +12,14 @@ import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 @Table(name = "products")
 @Data
 public class Product implements NamedIdentityOwner<Integer> {
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
+	@SequenceGenerator(
+			name = "product_seq",
+			sequenceName = "sq_products",  // actual sequence name in DB
+			allocationSize = 1,
+			initialValue = 78
+	)
 	@Column(name = "product_id")
 	private Integer id;
 	@Column(name = "product_name")
@@ -38,7 +36,7 @@ public class Product implements NamedIdentityOwner<Integer> {
 	@Column(name = "reorder_level")
 	private Integer reorderLevel;
 	@Column(name = "discontinued")
-	private Boolean discontinued;
+	private Integer discontinued;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="supplier_id")

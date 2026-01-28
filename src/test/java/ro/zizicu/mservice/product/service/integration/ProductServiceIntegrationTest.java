@@ -36,7 +36,7 @@ public class ProductServiceIntegrationTest {
 		try {
 			ProductDto product = new ProductDto();
 			product.setName("Test Integration");
-			product.setDiscontinued(false);
+			product.setDiscontinued(0);
 			product.setCategoryId(1);
 			product.setSupplierId(1);
 			ProductDto created = productService.create(product);
@@ -49,7 +49,7 @@ public class ProductServiceIntegrationTest {
 			product.setQuantityPerUnit("5 pieces");
 			product.setUnitsInStock(100);
 			product.setUnitsOnOrder(23);
-			product.setDiscontinued(false);
+			product.setDiscontinued(0);
 			product.setCategoryId(1);
 			product.setSupplierId(1);
 			created = productService.create(product);
@@ -66,7 +66,7 @@ public class ProductServiceIntegrationTest {
 			ProductDto product = new ProductDto();
 			product.setName("Test Integration Should fail");
 			product.setSupplierId(1);
-			product.setDiscontinued(false);
+			product.setDiscontinued(0);
 			productService.create(product);
 			fail("product creation should fail");
 		} catch (Exception e ) {
@@ -77,13 +77,13 @@ public class ProductServiceIntegrationTest {
 	
 	@Test
 	void filterProductTestByName() {
-		List<ProductDto> optionalProductList = productService.find("%HH%", null, null);
+		List<ProductDto> optionalProductList = productService.find("%Cam%", null, null);
 		Assertions.assertFalse(optionalProductList.isEmpty());
 	}
 	
 	@Test
 	void filterProductTestByNameAndCategory() {
-		List<ProductDto> optionalProductList = productService.find("%HH%", 1, null);
+		List<ProductDto> optionalProductList = productService.find("%Cam%", 1, null);
 		Assertions.assertFalse(optionalProductList.isEmpty());
 	}
 	
