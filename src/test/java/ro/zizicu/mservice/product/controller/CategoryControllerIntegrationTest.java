@@ -27,7 +27,7 @@ public class CategoryControllerIntegrationTest {
 
     @Test
     void testGetCategoryByName() {
-        ResponseEntity<Category> response = restTemplate.getForEntity( " categories/name/Beverages", Category.class );
+        ResponseEntity<Category> response = restTemplate.getForEntity( "/categories/name/Beverages", Category.class );
 
     }
 }
