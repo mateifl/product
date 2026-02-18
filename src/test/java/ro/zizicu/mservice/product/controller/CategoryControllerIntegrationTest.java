@@ -12,6 +12,8 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ro.zizicu.mservice.product.entities.Category;
 
+import java.util.List;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 public class CategoryControllerIntegrationTest {
@@ -19,7 +21,7 @@ public class CategoryControllerIntegrationTest {
     @Container
     @ServiceConnection
     static PostgreSQLContainer<?> postgres =
-            new PostgreSQLContainer<>("postgres:16");
+            new PostgreSQLContainer<>("postgres:16").withInitScript("schema.sql");
 
 
     @Autowired
@@ -27,7 +29,7 @@ public class CategoryControllerIntegrationTest {
 
     @Test
     void testGetCategoryByName() {
-        ResponseEntity<Category> response = restTemplate.getForEntity( "/categories/name/Beverages", Category.class );
+        ResponseEntity<List> response = restTemplate.getForEntity( "/categories/name/Beverages", List.class );
 
     }
 }
