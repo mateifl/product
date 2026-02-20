@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ro.zizicu.mservice.product.BaseIntegrationTest;
 import ro.zizicu.mservice.product.entities.Product;
 
-@SpringBootTest
-public class ProductRepositoryTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class ProductRepositoryTest extends BaseIntegrationTest {
 
 	@Autowired
 	private ProductRepository productRepository;

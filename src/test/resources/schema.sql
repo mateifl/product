@@ -47,7 +47,7 @@ CREATE TABLE categories (
     picture bytea
 );
 
-
+create sequence sq_categories;
 --
 -- Name: customer_customer_demo; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
@@ -177,7 +177,7 @@ CREATE TABLE products (
     discontinued integer NOT NULL
 );
 
-
+create sequence sq_products;
 --
 -- Name: region; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
@@ -247,14 +247,14 @@ CREATE TABLE us_states (
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO categories VALUES (1, 'Beverages', 'Soft drinks, coffees, teas, beers, and ales', '\x');
-INSERT INTO categories VALUES (2, 'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', '\x');
-INSERT INTO categories VALUES (3, 'Confections', 'Desserts, candies, and sweet breads', '\x');
-INSERT INTO categories VALUES (4, 'Dairy Products', 'Cheeses', '\x');
-INSERT INTO categories VALUES (5, 'Grains/Cereals', 'Breads, crackers, pasta, and cereal', '\x');
-INSERT INTO categories VALUES (6, 'Meat/Poultry', 'Prepared meats', '\x');
-INSERT INTO categories VALUES (7, 'Produce', 'Dried fruit and bean curd', '\x');
-INSERT INTO categories VALUES (8, 'Seafood', 'Seaweed and fish', '\x');
+INSERT INTO categories VALUES (nextval('sq_categories'), 'Beverages', 'Soft drinks, coffees, teas, beers, and ales', '\x');
+INSERT INTO categories VALUES (nextval('sq_categories'), 'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', '\x');
+INSERT INTO categories VALUES (nextval('sq_categories'), 'Confections', 'Desserts, candies, and sweet breads', '\x');
+INSERT INTO categories VALUES (nextval('sq_categories'), 'Dairy Products', 'Cheeses', '\x');
+INSERT INTO categories VALUES (nextval('sq_categories'), 'Grains/Cereals', 'Breads, crackers, pasta, and cereal', '\x');
+INSERT INTO categories VALUES (nextval('sq_categories'), 'Meat/Poultry', 'Prepared meats', '\x');
+INSERT INTO categories VALUES (nextval('sq_categories'), 'Produce', 'Dried fruit and bean curd', '\x');
+INSERT INTO categories VALUES (nextval('sq_categories'), 'Seafood', 'Seaweed and fish', '\x');
 
 
 --

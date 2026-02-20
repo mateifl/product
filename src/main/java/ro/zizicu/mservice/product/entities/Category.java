@@ -19,7 +19,7 @@ public class Category implements NamedIdentityOwner<Integer> {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq")
 	@SequenceGenerator(
 			name = "category_seq",
-			sequenceName = "sq_categories",  // actual sequence name in DB
+			sequenceName = "sq_categories",
 			allocationSize = 1
 	)
 	@Column(name = "category_id")

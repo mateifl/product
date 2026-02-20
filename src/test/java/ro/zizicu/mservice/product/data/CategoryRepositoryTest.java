@@ -5,11 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ro.zizicu.mservice.product.BaseIntegrationTest;
 import ro.zizicu.mservice.product.entities.Category;
 
 
-@SpringBootTest
-public class CategoryRepositoryTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class CategoryRepositoryTest extends BaseIntegrationTest {
 	
 	@Autowired
 	private CategoryRepository repository;

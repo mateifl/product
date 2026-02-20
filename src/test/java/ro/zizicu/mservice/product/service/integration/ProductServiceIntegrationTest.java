@@ -13,14 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.extern.slf4j.Slf4j;
+import ro.zizicu.mservice.product.BaseIntegrationTest;
 import ro.zizicu.mservice.product.data.CategoryRepository;
 import ro.zizicu.mservice.product.data.SupplierRepository;
 import ro.zizicu.mservice.product.dto.ProductDto;
 import ro.zizicu.mservice.product.services.ProductService;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
-public class ProductServiceIntegrationTest {
+public class ProductServiceIntegrationTest extends BaseIntegrationTest {
 
 	@Autowired
 	private ProductService productService;
