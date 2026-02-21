@@ -47,7 +47,7 @@ CREATE TABLE categories (
     picture bytea
 );
 
-create sequence sq_categories;
+create sequence sq_categories start with 1000;
 --
 -- Name: customer_customer_demo; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
@@ -67,6 +67,7 @@ CREATE TABLE customer_demographics (
     customer_desc text
 );
 
+create sequence sq_customer_demographics start with 1000;
 
 --
 -- Name: customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
@@ -86,6 +87,7 @@ CREATE TABLE customers (
     fax character varying(24)
 );
 
+create sequence sq_customers start with 1000;
 
 --
 -- Name: employees; Type: TABLE; Schema: public; Owner: -; Tablespace: 
@@ -112,6 +114,7 @@ CREATE TABLE employees (
     photo_path character varying(255)
 );
 
+create sequence sq_employees start with 1000;
 
 --
 -- Name: employee_territories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
@@ -177,7 +180,7 @@ CREATE TABLE products (
     discontinued integer NOT NULL
 );
 
-create sequence sq_products;
+create sequence sq_products start with 1000;
 --
 -- Name: region; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
@@ -247,14 +250,14 @@ CREATE TABLE us_states (
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO categories VALUES (nextval('sq_categories'), 'Beverages', 'Soft drinks, coffees, teas, beers, and ales', '\x');
-INSERT INTO categories VALUES (nextval('sq_categories'), 'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', '\x');
-INSERT INTO categories VALUES (nextval('sq_categories'), 'Confections', 'Desserts, candies, and sweet breads', '\x');
-INSERT INTO categories VALUES (nextval('sq_categories'), 'Dairy Products', 'Cheeses', '\x');
-INSERT INTO categories VALUES (nextval('sq_categories'), 'Grains/Cereals', 'Breads, crackers, pasta, and cereal', '\x');
-INSERT INTO categories VALUES (nextval('sq_categories'), 'Meat/Poultry', 'Prepared meats', '\x');
-INSERT INTO categories VALUES (nextval('sq_categories'), 'Produce', 'Dried fruit and bean curd', '\x');
-INSERT INTO categories VALUES (nextval('sq_categories'), 'Seafood', 'Seaweed and fish', '\x');
+INSERT INTO categories VALUES (1, 'Beverages', 'Soft drinks, coffees, teas, beers, and ales', '\x');
+INSERT INTO categories VALUES (2, 'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', '\x');
+INSERT INTO categories VALUES (3, 'Confections', 'Desserts, candies, and sweet breads', '\x');
+INSERT INTO categories VALUES (4, 'Dairy Products', 'Cheeses', '\x');
+INSERT INTO categories VALUES (5, 'Grains/Cereals', 'Breads, crackers, pasta, and cereal', '\x');
+INSERT INTO categories VALUES (6, 'Meat/Poultry', 'Prepared meats', '\x');
+INSERT INTO categories VALUES (7, 'Produce', 'Dried fruit and bean curd', '\x');
+INSERT INTO categories VALUES (8, 'Seafood', 'Seaweed and fish', '\x');
 
 
 --
