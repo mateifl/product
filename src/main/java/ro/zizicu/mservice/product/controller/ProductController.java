@@ -1,17 +1,14 @@
 package ro.zizicu.mservice.product.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ro.zizicu.mservice.product.dto.ProductDto;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.services.ProductService;
@@ -35,15 +32,20 @@ public class ProductController{
 
 	@PatchMapping(value="/update-stock/")
 	public ResponseEntity<?> updateStock(@RequestBody Product product) {
-
-
 		return ResponseEntity.ok().body(product);
 	}
 
-	public ResponseEntity<?> create(ProductDto productDto) {
+	@PostMapping
+	public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto) {
 		log.debug("create product");
 		ProductDto createdProductDto = productService.create(productDto);
-		return ResponseEntity.ok().body(createdProductDto);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(createdProductDto.getId())
+				.toUri();
+
+		return ResponseEntity.created(location).body(createdProductDto);
 	}
 
 }
