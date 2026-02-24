@@ -27,6 +27,6 @@ public class CategoryServiceIntegrationTest extends BaseIntegrationTest {
     void testSaveCategorySuccess() {
         IdentityOwner<Integer> e =  categoryService.create(new Category(null, "TestC", "testCD"));
         assertNotNull(e);
-        categoryService.delete((Category)e);
+        categoryService.delete(e.getId());
     }
 }

@@ -16,8 +16,4 @@ public class CategoryController
 		super(categoryService);
 	}
 
-	@Override
-	protected String getLocation() {
-		return "categories";
-	}
 }

@@ -16,9 +16,5 @@ public class SupplierController
 		super(supplierService);
 	}
 
-	@Override
-	protected String getLocation() {
-		return "suppliers";
-	}
 
 }
