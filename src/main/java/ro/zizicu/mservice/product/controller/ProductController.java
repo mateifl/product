@@ -3,30 +3,30 @@ package ro.zizicu.mservice.product.controller;
 import java.net.URI;
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ro.zizicu.mservice.product.dto.ProductDto;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.services.ProductService;
+import ro.zizicu.nwbase.controller.NamedEntityController;
 
 @RestController
 @RequestMapping(value = "/products")
 @Slf4j
-@RequiredArgsConstructor
-public class ProductController{
+public class ProductController extends NamedEntityController<Product, ProductService, Integer> {
 
-	private final ProductService productService;
+	public ProductController(ProductService productService) {
+		super(productService);
+	}
 
 	@GetMapping(value = "/find")
 	public ResponseEntity<?> find(@RequestParam(required = false) String name,
 			@RequestParam(required = false) Integer categoryId,
 			@RequestParam(required = false) Integer supplierId) {
 		log.debug("filtering products");
-		List<ProductDto> products =  productService.find(name, categoryId, supplierId);
+		List<Product> products =  ((ProductService)getService()).find(name, categoryId, supplierId);
 		return ResponseEntity.ok().body(products);
 	}
 
@@ -36,16 +36,16 @@ public class ProductController{
 	}
 
 	@PostMapping
-	public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto) {
+	public ResponseEntity<Product> create(@RequestBody Product product) {
 		log.debug("create product");
-		ProductDto createdProductDto = productService.create(productDto);
+		Product createdProduct = getService().create(product);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}")
-				.buildAndExpand(createdProductDto.getId())
+				.buildAndExpand(createdProduct.getId())
 				.toUri();
 
-		return ResponseEntity.created(location).body(createdProductDto);
+		return ResponseEntity.created(location).body(createdProduct);
 	}
 
 }

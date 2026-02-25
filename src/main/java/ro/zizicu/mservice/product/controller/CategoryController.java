@@ -10,7 +10,7 @@ import ro.zizicu.nwbase.controller.NamedEntityController;
 @RestController
 @RequestMapping(value = "categories")
 public class CategoryController 
-	extends NamedEntityController<Category, Integer> {
+	extends NamedEntityController<Category,  CategoryService, Integer> {
 
 	public CategoryController(CategoryService categoryService) {
 		super(categoryService);

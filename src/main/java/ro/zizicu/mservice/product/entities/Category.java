@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Category implements NamedIdentityOwner<Integer> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq")

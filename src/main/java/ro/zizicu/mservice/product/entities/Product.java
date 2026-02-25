@@ -3,8 +3,6 @@ package ro.zizicu.mservice.product.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
@@ -40,11 +38,9 @@ public class Product implements NamedIdentityOwner<Integer> {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="supplier_id")
-	@JsonIgnore
 	private Supplier supplier;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="category_id")
-	@JsonIgnore
 	private Category category;
 
 	@Override

@@ -14,9 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.extern.slf4j.Slf4j;
 import ro.zizicu.mservice.product.BaseIntegrationTest;
-import ro.zizicu.mservice.product.data.CategoryRepository;
-import ro.zizicu.mservice.product.data.SupplierRepository;
-import ro.zizicu.mservice.product.dto.ProductDto;
+import ro.zizicu.mservice.product.entities.*;
 import ro.zizicu.mservice.product.services.ProductService;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -26,33 +24,35 @@ public class ProductServiceIntegrationTest extends BaseIntegrationTest {
 	@Autowired
 	private ProductService productService;
 
-	@Autowired
-	private CategoryRepository categoryRepository;
-
-	@Autowired
-	private SupplierRepository supplierRepository;
-
 	@Test
 	void createProductTestSuccess() {
 		try {
-			ProductDto product = new ProductDto();
+			Product product = new Product();
 			product.setName("Test Integration");
 			product.setDiscontinued(0);
-			product.setCategoryId(1);
-			product.setSupplierId(1);
-			ProductDto created = productService.create(product);
+			Category category = new Category();
+			category.setId(1);
+			product.setCategory(category);
+			Supplier supplier = new Supplier();
+			supplier.setId(1);
+			product.setSupplier(supplier);
+			Product created = productService.create(product);
 			assertNotNull(created, "Product created must not be null");
 
 			
-			product = new ProductDto();
+			product = new Product();
 			product.setName("Test integration 1");
-			product.setUnitPrice(11.12f);
+			product.setUnitPrice(11.12d);
 			product.setQuantityPerUnit("5 pieces");
 			product.setUnitsInStock(100);
 			product.setUnitsOnOrder(23);
 			product.setDiscontinued(0);
-			product.setCategoryId(1);
-			product.setSupplierId(1);
+			category = new Category();
+			category.setId(1);
+			product.setCategory(category);
+			supplier = new Supplier();
+			supplier.setId(1);
+			product.setSupplier(supplier);
 			created = productService.create(product);
 			assertNotNull(created, "Product created must not be null");
 
@@ -65,9 +65,11 @@ public class ProductServiceIntegrationTest extends BaseIntegrationTest {
 	@Test
 	void createProductTestNoCategory() {
 		try {
-			ProductDto product = new ProductDto();
+			Product product = new Product();
 			product.setName("Test Integration Should fail");
-			product.setSupplierId(1);
+			Supplier supplier = new Supplier();
+			supplier.setId(1);
+			product.setSupplier(supplier);
 			product.setDiscontinued(0);
 			productService.create(product);
 			fail("product creation should fail");
@@ -79,19 +81,19 @@ public class ProductServiceIntegrationTest extends BaseIntegrationTest {
 	
 	@Test
 	void filterProductTestByName() {
-		List<ProductDto> optionalProductList = productService.find("%Cam%", null, null);
+		List<Product> optionalProductList = productService.find("%Cam%", null, null);
 		Assertions.assertFalse(optionalProductList.isEmpty());
 	}
 	
 	@Test
 	void filterProductTestByNameAndCategory() {
-		List<ProductDto> optionalProductList = productService.find("%Cam%", 4, null);
+		List<Product> optionalProductList = productService.find("%Cam%", 4, null);
 		Assertions.assertFalse(optionalProductList.isEmpty());
 	}
 	
 	@Test
 	void filterProductTestByNameAndCategoryNoResults() {
-		List<ProductDto> optionalProductList = productService.find("Ch%", 4, null);
+		List<Product> optionalProductList = productService.find("Ch%", 4, null);
 		Assertions.assertTrue(optionalProductList.isEmpty());
 	}
 }

@@ -19,6 +19,7 @@ public class CategoryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void testGetCategoryByName() {
         ResponseEntity<List> response = restTemplate.getForEntity( "/categories/name/Beverages", List.class );
+        Assertions.assertNotNull(response.getBody());
         Assertions.assertEquals(1, response.getBody().size());
 
     }

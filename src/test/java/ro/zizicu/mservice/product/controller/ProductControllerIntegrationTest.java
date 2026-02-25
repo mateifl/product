@@ -9,13 +9,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.http.MediaType;
 import ro.zizicu.mservice.product.BaseIntegrationTest;
-import ro.zizicu.mservice.product.dto.ProductDto;
+import ro.zizicu.mservice.product.entities.Category;
+import ro.zizicu.mservice.product.entities.Supplier;
+import ro.zizicu.mservice.product.entities.Product;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -40,10 +42,14 @@ public class ProductControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void shouldCreateProduct_andReturn201_andLocationHeader() throws Exception {
-        ProductDto requestDto = new ProductDto();
+        Product requestDto = new Product();
         requestDto.setName("Laptop");
-        requestDto.setCategoryId(1);
-        requestDto.setSupplierId(2);
+        Category category = new Category();
+        category.setId(1);
+        requestDto.setCategory(category);
+        Supplier supplier = new Supplier();
+        supplier.setId(1);
+        requestDto.setSupplier(supplier);
         requestDto.setDiscontinued(1);
 
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
@@ -57,7 +63,10 @@ public class ProductControllerIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"))
                 .andExpect(jsonPath("$.name").value("Laptop"))
-                .andExpect(jsonPath("$.categoryId").value(1))
-                .andExpect(jsonPath("$.supplierId").value(2));
+                .andExpect(jsonPath("$.category.id").value(1))
+                .andExpect(jsonPath("$.supplier.id").value(1));
     }
+
+
+
 }

@@ -9,12 +9,9 @@ import ro.zizicu.nwbase.controller.NamedEntityController;
 
 @RestController
 @RequestMapping(value = "suppliers")
-public class SupplierController 
-	extends NamedEntityController<Supplier, Integer> {
+public class SupplierController extends NamedEntityController<Supplier, SupplierService, Integer> {
 
 	public SupplierController(SupplierService supplierService) {
 		super(supplierService);
 	}
-
-
 }
