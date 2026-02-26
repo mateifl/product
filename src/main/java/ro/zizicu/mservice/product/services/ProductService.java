@@ -2,15 +2,15 @@ package ro.zizicu.mservice.product.services;
 
 import java.util.List;
 
-import ro.zizicu.mservice.product.dto.ProductDto;
-import ro.zizicu.nwbase.service.DTOService;
+import ro.zizicu.mservice.product.entities.Product;
+import ro.zizicu.nwbase.service.NamedService;
 
-public interface ProductService extends DTOService<ProductDto, Integer> {
+public interface ProductService extends NamedService<Product, Integer> {
 
 	/** Execute a full or partial update on the product */
-	ProductDto update(ProductDto p);
+	Product update(Product p);
 
-	List<ProductDto> find(String name, Integer categoryId, Integer supplierId);
+	List<Product> find(String name, Integer categoryId, Integer supplierId);
 
-	ProductDto create(ProductDto productDto);
+	Product create(Product productDto);
 }

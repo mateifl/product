@@ -1,0 +1,27 @@
+info:
+  name: create supplier
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: http://localhost:8081/suppliers
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Emag",
+        "contactName": "Florescu Matei",
+        "address": "49 Gilbert St.",
+        "city": "Bucharest",
+        "postalCode": "221341",
+        "country": "RO",
+        "phone": "(40) 555-2222"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

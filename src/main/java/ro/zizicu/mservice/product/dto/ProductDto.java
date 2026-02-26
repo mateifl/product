@@ -1,40 +1,37 @@
-package ro.zizicu.mservice.product.dto;
+// package ro.zizicu.mservice.product.dto;
 
-import lombok.Data;
-import org.springframework.beans.BeanUtils;
-import ro.zizicu.mservice.product.entities.Product;
-import ro.zizicu.nwbase.entity.NamedIdentityOwner;
+// import lombok.Data;
+// import org.springframework.beans.BeanUtils;
 
-@Data
-public class ProductDto implements NamedIdentityOwner<Integer> {
+// import jakarta.validation.constraints.NotNull;
+// import ro.zizicu.mservice.product.entities.Product;
+// import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
-    private Integer id;
-    private String name;
-    private String quantityPerUnit;
+// @Data
+// public class ProductDto implements NamedIdentityOwner<Integer> {
 
-    private Float unitPrice;
-    private Integer unitsInStock;
-    private Integer unitsOnOrder;
-    private Boolean discontinued;
+//     private Integer id;
+//     private String name;
+//     private String quantityPerUnit;
 
-    private Integer categoryId;
-    private Integer supplierId;
+//     private Float unitPrice;
+//     private Integer unitsInStock;
+//     private Integer unitsOnOrder;
+//     private Integer discontinued;
 
-    @Override
-    public String getEntityName() {
-        return "ProductDto";
-    }
+//     private Integer categoryId;
+//     private Integer supplierId;
 
-    public ProductDto fromEntity(Product product) {
-        BeanUtils.copyProperties(product, this);
-        this.categoryId = product.getCategory().getId();
-        this.supplierId = product.getSupplier().getId();
-        return this;
-    }
+//     @Override
+//     public String getEntityName() {
+//         return "ProductDto";
+//     }
 
-    public Product toEntity() {
-        Product product = new Product();
-        BeanUtils.copyProperties(product, this);
-        return product;
-    }
-}
+//     public ProductDto fromEntity(@NotNull Product product) {
+//         BeanUtils.copyProperties(product, this);
+//         this.categoryId = product.getCategory().getId();
+//         this.supplierId = product.getSupplier().getId();
+//         return this;
+//     }
+
+// }

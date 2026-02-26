@@ -4,14 +4,15 @@ package ro.zizicu.mservice.product.service.integration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ro.zizicu.mservice.product.BaseIntegrationTest;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.services.CategoryService;
 import ro.zizicu.nwbase.entity.IdentityOwner;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest
-public class CategoryServiceIntegrationTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class CategoryServiceIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     private CategoryService categoryService;
@@ -26,8 +27,6 @@ public class CategoryServiceIntegrationTest {
     void testSaveCategorySuccess() {
         IdentityOwner<Integer> e =  categoryService.create(new Category(null, "TestC", "testCD"));
         assertNotNull(e);
-        categoryService.delete((Category)e);
+        categoryService.delete(e.getId());
     }
-
-
 }

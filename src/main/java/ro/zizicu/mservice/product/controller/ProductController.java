@@ -1,49 +1,51 @@
 package ro.zizicu.mservice.product.controller;
 
+import java.net.URI;
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
-import ro.zizicu.mservice.product.dto.ProductDto;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.services.ProductService;
+import ro.zizicu.nwbase.controller.NamedEntityController;
 
 @RestController
 @RequestMapping(value = "/products")
 @Slf4j
-@RequiredArgsConstructor
-public class ProductController{
+public class ProductController extends NamedEntityController<Product, ProductService, Integer> {
 
-	private final ProductService productService;
+	public ProductController(ProductService productService) {
+		super(productService);
+	}
 
 	@GetMapping(value = "/find")
 	public ResponseEntity<?> find(@RequestParam(required = false) String name,
 			@RequestParam(required = false) Integer categoryId,
 			@RequestParam(required = false) Integer supplierId) {
 		log.debug("filtering products");
-		List<ProductDto> products =  productService.find(name, categoryId, supplierId);
+		List<Product> products =  ((ProductService)getService()).find(name, categoryId, supplierId);
 		return ResponseEntity.ok().body(products);
 	}
 
 	@PatchMapping(value="/update-stock/")
 	public ResponseEntity<?> updateStock(@RequestBody Product product) {
-
-
 		return ResponseEntity.ok().body(product);
 	}
 
-	public ResponseEntity<?> create(ProductDto productDto) {
+	@PostMapping
+	public ResponseEntity<Product> create(@RequestBody Product product) {
 		log.debug("create product");
-		ProductDto createdProductDto = productService.create(productDto);
-		return ResponseEntity.ok().body(createdProductDto);
+		Product createdProduct = getService().create(product);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(createdProduct.getId())
+				.toUri();
+
+		return ResponseEntity.created(location).body(createdProduct);
 	}
 
 }

@@ -1,9 +1,6 @@
 package ro.zizicu.mservice.product.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import lombok.Getter;
@@ -11,11 +8,17 @@ import lombok.Setter;
 import ro.zizicu.nwbase.entity.NamedIdentityOwner;
 
 @Entity
-@Table(name = "Supplier")
+@Table(name = "suppliers")
 @Getter
 @Setter
 public class Supplier implements NamedIdentityOwner<Integer> {
-	
+
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "supplier_seq")
+	@SequenceGenerator(
+			name = "supplier_seq",
+			sequenceName = "sq_suppliers",
+			allocationSize = 1
+	)
 	@Id
 	@Column(name="supplier_id")
 	private Integer id;
