@@ -14,6 +14,7 @@ import ro.zizicu.mservice.product.entities.Supplier;
 import ro.zizicu.mservice.product.entities.Product;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ro.zizicu.nwbase.controller.request.UpdateStockRequest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -67,6 +68,19 @@ public class ProductControllerIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.supplier.id").value(1));
     }
 
+    @Test
+    void shouldUpdateStock_andReturn201_andLocationHeader() throws Exception {
+        UpdateStockRequest  updateStockRequest = new UpdateStockRequest();
+        updateStockRequest.setId(6);
+        updateStockRequest.setUnitsOnOrder(2);
+        String jsonRequest = objectMapper.writeValueAsString(updateStockRequest);
+
+        mockMvc.perform(patch("/products/update-stock")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isNoContent());
+
+    }
 
 
 }

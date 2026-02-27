@@ -12,7 +12,6 @@ http:
       {
         "id": 6,
         "unitsOnOrder": 2
-        
       }
   auth: inherit
 

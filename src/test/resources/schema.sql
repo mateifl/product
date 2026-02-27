@@ -162,7 +162,7 @@ CREATE TABLE orders (
     ship_country character varying(15)
 );
 
-
+create sequence sq_orders start with 15000;
 --
 -- Name: products; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
@@ -222,7 +222,7 @@ CREATE TABLE suppliers (
     homepage text
 );
 
-create sequence sq_suppliers start with 2;
+create sequence sq_suppliers start with 100;
 
 --
 -- Name: territories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
