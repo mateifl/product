@@ -11,6 +11,8 @@ import ro.zizicu.mservice.product.data.CategoryRepository;
 import ro.zizicu.mservice.product.data.ProductRepository;
 import ro.zizicu.mservice.product.data.SupplierRepository;
 
+import ro.zizicu.mservice.product.data.exceptions.NotEnoughStock;
+import ro.zizicu.mservice.product.data.exceptions.ProductNotFound;
 import ro.zizicu.mservice.product.entities.Category;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.entities.Supplier;
@@ -81,6 +83,23 @@ public class ProductServiceImpl  extends NamedServiceImpl<Product, Integer>
 		product.setSupplier(supplierOptional.orElseThrow());
 		Product persistedProduct = transform(getRepository().save(product));
 		return persistedProduct;
+	}
+
+	@Override
+	public Product updateStock(Product product) {
+		Product fromDatabase = getRepository().findById(product.getId()).orElseThrow(() -> new ProductNotFound(product.getName() + " not found"));
+		if(product.getUnitsOnOrder() > fromDatabase.getUnitsInStock())
+		{
+			throw new NotEnoughStock( String.format( "Not enough units in stock for %s %d %d", product.getName(), product.getUnitsOnOrder(), fromDatabase.getUnitsInStock() ) );
+		}
+		fromDatabase.setUnitsInStock(fromDatabase.getUnitsInStock() - product.getUnitsOnOrder());
+		return transform(getRepository().save(fromDatabase));
+	}
+
+	@Override
+	public void discontinue(Product product) {
+		Product fromDatabase = getRepository().findById(product.getId()).orElseThrow(() -> new ProductNotFound(product.getName() + " not found"));
+		getRepository().save(fromDatabase);
 	}
 
 	@Override

@@ -13,4 +13,8 @@ public interface ProductService extends NamedService<Product, Integer> {
 	List<Product> find(String name, Integer categoryId, Integer supplierId);
 
 	Product create(Product productDto);
+
+	Product updateStock(Product product);
+
+	void discontinue(Product product);
 }

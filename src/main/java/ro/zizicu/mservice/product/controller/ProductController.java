@@ -3,6 +3,10 @@ package ro.zizicu.mservice.product.controller;
 import java.net.URI;
 import java.util.List;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ro.zizicu.mservice.product.entities.Product;
 import ro.zizicu.mservice.product.services.ProductService;
 import ro.zizicu.nwbase.controller.NamedEntityController;
+import ro.zizicu.nwbase.controller.request.UpdateStockRequest;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -30,13 +35,17 @@ public class ProductController extends NamedEntityController<Product, ProductSer
 		return ResponseEntity.ok().body(products);
 	}
 
-	@PatchMapping(value="/update-stock/")
-	public ResponseEntity<?> updateStock(@RequestBody Product product) {
-		return ResponseEntity.ok().body(product);
+	@PatchMapping(value="/update-stock")
+	public ResponseEntity<Void> updateStock(@Valid @RequestBody UpdateStockRequest updateStockRequest) {
+		Product product = new Product();
+		product.setUnitsOnOrder(updateStockRequest.getUnitsOnOrder());
+		product.setId(updateStockRequest.getId());
+		((ProductService)getService()).updateStock(product);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping
-	public ResponseEntity<Product> create(@RequestBody Product product) {
+	public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
 		log.debug("create product");
 		Product createdProduct = getService().create(product);
 

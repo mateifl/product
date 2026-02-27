@@ -1,0 +1,23 @@
+info:
+  name: product update stock
+  type: http
+  seq: 10
+
+http:
+  method: PATCH
+  url: http://localhost:8081/products/update-stock
+  body:
+    type: json
+    data: |-
+      {
+        "id": 6,
+        "unitsOnOrder": 2
+        
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

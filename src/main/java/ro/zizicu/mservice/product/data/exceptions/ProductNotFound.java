@@ -1,10 +1,12 @@
 package ro.zizicu.mservice.product.data.exceptions;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class ProductNotFound extends RuntimeException {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7006179318218205286L;
+	public ProductNotFound(String s) {
+		super(s);
+	}
 
 }
