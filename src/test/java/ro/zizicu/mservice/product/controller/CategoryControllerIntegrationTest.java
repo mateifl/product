@@ -49,7 +49,7 @@ public class CategoryControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void shouldCreateCategory() throws Exception {
-        Category  category = new Category();
+        Category category = new Category();
         category.setName("Fruits");
         category.setDescription("Fruits");
         String jsonRequest = objectMapper.writeValueAsString(category);
