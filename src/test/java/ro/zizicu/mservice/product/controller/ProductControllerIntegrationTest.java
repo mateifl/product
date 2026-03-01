@@ -81,6 +81,4 @@ public class ProductControllerIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isNoContent());
 
     }
-
-
 }
