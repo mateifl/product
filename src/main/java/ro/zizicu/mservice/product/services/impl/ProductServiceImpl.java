@@ -87,10 +87,14 @@ public class ProductServiceImpl  extends NamedServiceImpl<Product, Integer>
 
 	@Override
 	public Product updateStock(Product product) {
-		Product fromDatabase = getRepository().findById(product.getId()).orElseThrow(() -> new ProductNotFound(product.getName() + " not found"));
+		Product fromDatabase = getRepository()
+				.findById(product.getId()).orElseThrow(() -> new ProductNotFound(product.getName() + " not found"));
 		if(product.getUnitsOnOrder() > fromDatabase.getUnitsInStock())
 		{
-			throw new NotEnoughStock( String.format( "Not enough units in stock for %s %d %d", product.getName(), product.getUnitsOnOrder(), fromDatabase.getUnitsInStock() ) );
+			throw new NotEnoughStock( String.format( "Not enough units in stock for %s %d %d",
+					product.getName(),
+					product.getUnitsOnOrder(),
+					fromDatabase.getUnitsInStock() ) );
 		}
 		fromDatabase.setUnitsInStock(fromDatabase.getUnitsInStock() - product.getUnitsOnOrder());
 		return transform(getRepository().save(fromDatabase));
@@ -98,7 +102,8 @@ public class ProductServiceImpl  extends NamedServiceImpl<Product, Integer>
 
 	@Override
 	public void discontinue(Product product) {
-		Product fromDatabase = getRepository().findById(product.getId()).orElseThrow(() -> new ProductNotFound(product.getName() + " not found"));
+		Product fromDatabase = getRepository()
+				.findById(product.getId()).orElseThrow(() -> new ProductNotFound(product.getName() + " not found"));
 		getRepository().save(fromDatabase);
 	}
 
