@@ -56,7 +56,7 @@ public class ProductControllerIntegrationTest extends BaseIntegrationTest {
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
         mockMvc.perform(post("/products")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                         .content(jsonRequest))
                 .andDo(result -> {
                     log.info(result.getResponse().getContentAsString());
@@ -76,7 +76,7 @@ public class ProductControllerIntegrationTest extends BaseIntegrationTest {
         String jsonRequest = objectMapper.writeValueAsString(updateStockRequest);
 
         mockMvc.perform(patch("/products/update-stock")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                         .content(jsonRequest))
                 .andExpect(status().isNoContent());
 
