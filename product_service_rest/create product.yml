@@ -1,0 +1,33 @@
+info:
+  name: create product
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: http://localhost:8081/products
+  body:
+    type: json
+    data: |2-
+        {
+          "name": "Laptop",
+          "quantityPerUnit": "5 pieces",
+          "unitPrice": 1200.0,
+          "unitsInStock": 100,
+          "unitsOnOrder": 23,
+          "reorderLevel": null,
+          "discontinued": 0,
+          "supplier": {
+            "id": 1
+          },
+          "category": {
+            "id": 1
+          }
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
