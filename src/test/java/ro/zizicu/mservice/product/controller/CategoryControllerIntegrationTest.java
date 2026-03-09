@@ -29,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 public class CategoryControllerIntegrationTest extends BaseIntegrationTest {
 
-
     @Autowired
     private MockMvc mockMvc;
 

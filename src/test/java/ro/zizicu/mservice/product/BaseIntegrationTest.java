@@ -26,21 +26,4 @@ public abstract class BaseIntegrationTest {
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
-//    @Autowired
-//    private ObjectMapper objectMapper;
-
-
-//    protected void logJsonBody(MvcResult result) {
-//        String json = null;
-//        try {
-//            json = result.getResponse().getContentAsString();
-//            Object jsonObject = objectMapper.readValue(json, Object.class);
-//            String prettyJson = objectMapper
-//                .writerWithDefaultPrettyPrinter()
-//                .writeValueAsString(jsonObject);
-//            log.info(prettyJson);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 }
